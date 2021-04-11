@@ -64,7 +64,7 @@ public class PageController {
      */
     @GetMapping({"searchOptionalFund"})
     public String searchOptionalFundPage(Model model, String keyword, PageEntity pageEntity) {
-        PageInfo<FundModel> list = fundService.selectAllByKeyword(keyword, pageEntity);
+        PageInfo<FundModel> list = fundService.selectAllOptionalFundByKeyword(keyword, pageEntity);
         this.injectModel(model, list, PageNameDict.OPTIONAL_FUND_NAME);
         return PageNameDict.OPTIONAL_FUND;
     }

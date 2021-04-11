@@ -130,6 +130,18 @@ public class FundService {
     }
 
     /**
+     * 根据关键词查询所有 FundModel
+     *
+     * @param keyword    关键词
+     * @param pageEntity 分页条件
+     * @return PageInfo
+     */
+    public PageInfo<FundModel> selectAllByKeyword(String keyword, PageEntity pageEntity) {
+        PageHelper.startPage(pageEntity.getPageNum(), pageEntity.getPageSize());
+        return new PageInfo<>(this.postFormatData(fundDao.selectByKeyword(keyword)));
+    }
+
+    /**
      * 查询所有自选基金
      *
      * @param pageEntity 分页条件
@@ -144,15 +156,15 @@ public class FundService {
     }
 
     /**
-     * 根据关键词查询所有 FundModel
+     * 根据关键词查询所有自选基金
      *
      * @param keyword    关键词
      * @param pageEntity 分页条件
      * @return PageInfo
      */
-    public PageInfo<FundModel> selectAllByKeyword(String keyword, PageEntity pageEntity) {
+    public PageInfo<FundModel> selectAllOptionalFundByKeyword(String keyword, PageEntity pageEntity) {
         PageHelper.startPage(pageEntity.getPageNum(), pageEntity.getPageSize());
-        return new PageInfo<>(this.postFormatData(fundDao.selectByKeyword(keyword)));
+        return new PageInfo<>(this.postFormatData(fundDao.selectOptionalFundsByKeyword(SessionUtil.getLoginUser().getId(), keyword)));
     }
 
     /**
