@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Fund Helper 后台管理系统</title>
+<link rel="icon" href="/images/favicon.ico" type="image/ico">
+<meta name="keywords" content="Fund Helper">
+<meta name="description" content="Fund Helper">
+<meta name="author" content="team of walkers">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.min.css" rel="stylesheet">
+<link href="css/materialdesignicons.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container">
+    <!--左侧导航-->
+    <div th:replace="common/left::left" ></div>
+    <!--头部信息-->
+    <div th:replace="common/header::header" ></div>
+
+    <!--页面主要内容-->
+    <main class="lyear-layout-content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-toolbar clearfix">
+                <form class="pull-right search-bar" method="get" action="/searchOptionalFund">
+                  <div class="input-group">
+                    <div class="input-group-btn">
+                      <div class="btn btn-default dropdown-toggle" id="search-btn" onclick="searchFunc('OptionalFund')">搜索</div>
+                    </div>
+                    <label for="keyword"></label>
+                    <input type="text" class="form-control" value="" id="keyword" name="keyword" placeholder="请输入关键字" />
+                  </div>
+                </form>
+                <div class="toolbar-btn-action">
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>基金代码</th>
+                        <th>基金名称</th>
+                        <th>基金类型</th>
+                        <th>基金经理</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="entity:${result.list}">
+                        <td th:text="${entity.code}"></td>
+                        <td th:text="${entity.name}"></td>
+                        <td th:text="${entity.type}"></td>
+                        <td th:text="${entity.manager}"></td>
+                        <td th:text="${entity.createDate}"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- 底部分页栏 -->
+                <div class="text-center">
+                  <nav>
+                    <ul class="pagination" th:with="url=${#httpServletRequest.getRequestURI()}, keyword=${#httpServletRequest.getParameter('keyword')}">
+                      <li th:class="${result.hasPreviousPage}?'':'disabled'">
+                        <a th:href="@{${url}(pageNum=${result.prePage}, keyword=${keyword})}"><span><i class="mdi mdi-chevron-left"></i></span></a>
+                      </li>
+                      <li th:class="${result.pageNum}==${num}?'active':''" th:each="num:${result.navigatepageNums}">
+                        <a th:href="@{${url}(pageNum=${num}, keyword=${keyword})}" th:text="${num}"></a>
+                      </li>
+                      <li th:class="${result.hasNextPage}?'':'disabled'">
+                        <a th:href="@{${url}(pageNum=${result.nextPage}, keyword=${keyword})}"><span><i class="mdi mdi-chevron-right"></i></span></a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!--End 页面主要内容-->
+  </div>
+</div>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-notify.min.js"></script>
+<script type="text/javascript" src="js/lightyear.js"></script>
+<script type="text/javascript" src="js/myScript.js"></script>
+</body>
+</html>

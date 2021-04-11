@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div th:fragment="left">
+        <aside class="lyear-layout-sidebar">
+            <!-- logo -->
+            <div id="logo" class="sidebar-header">
+                <a href="/index"><img src="images/logo-sidebar.png" title="LightYear" alt="LightYear" /></a>
+            </div>
+            <!-- 左侧菜单 -->
+            <div class="lyear-layout-sidebar-scroll">
+                <nav class="sidebar-main">
+                    <ul class="nav nav-drawer">
+                        <li class="nav-item">
+                            <a href="/index"><i class="mdi mdi-home"></i>首页</a>
+                        </li>
+                        <li th:each="pageModel:${pages}" th:class="${pageModel.pageName}==${currentPageName}?'nav-item active':'nav-item'">
+                            <a th:href="${pageModel.pageCode}">
+                                <i th:class="${pageModel.iconClass}"></i>
+                                <span th:text="${pageModel.pageName}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                </div>
+            </div>
+        </aside>
+    </div>
+</html>

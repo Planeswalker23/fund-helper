@@ -1,0 +1,32 @@
+server:
+  port: 8888
+spring:
+  profiles:
+    active: mysql
+  jackson:
+    default-property-inclusion: NON_EMPTY
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss]
+  jpa:
+    dashow-sql: true
+
+logging:
+  level:
+    root: ERROR
+    org:
+      springframework: ERROR
+    # SQL 的日志输出级别为 DEBUG
+    io:
+      walkers: DEBUG
+
+# MyBatis 下划线命名转驼峰命名
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+
+fund:
+  datasource:
+    valuePath: https://stock.finance.sina.com.cn/fundInfo/api/openapi.php/CaihuiFundInfoService.getNav
+    detailPathPrefix: http://fund.eastmoney.com/
+    detailPathSuffix: .html

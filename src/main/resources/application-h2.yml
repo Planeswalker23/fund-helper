@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:fund-helper
+    username: root
+    password: password
+    platform: h2
+    schema: classpath:sql/schema.sql
+    sql-script-encoding: utf-8
+  h2:
+    console:
+      enabled: true
+      path: /h2
