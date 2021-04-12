@@ -44,14 +44,22 @@ public class WriteFundService {
     private CrawlerService crawlerService;
     @Resource
     private ApplicationContext applicationContext;
+    @Resource
+    private OptionalFundRelationService optionalFundRelationService;
 
+    /**
+     * 创建基金 & 基金净值
+     *
+     * @param code 基金代码
+     * @return FundModel
+     */
     @Transactional(rollbackFor = Exception.class)
-    public void createFundByCode(String code) {
+    public FundModel createFundByCode(String code) {
         // 根据 code 查询基金实体
         FundModel fund = fundDao.selectByCode(code);
         if (fund != null) {
             log.info("Fund data of code {} already exist", code);
-            return;
+            return fund;
         }
         // 获取基金数据
         fund = crawlerService.getFundByCode(code);
@@ -64,6 +72,7 @@ public class WriteFundService {
 
         // 发布事件：计算日增长率
         applicationContext.publishEvent(new CalculateIncreaseRateEvent(fund.getId()));
+        return fund;
     }
 
     /**
@@ -109,5 +118,25 @@ public class WriteFundService {
             fundValue.setValueDate(TimeUtil.string2Date(detail.getFbrq()));
             fundValueMapWithDateKey.put(detail.getFbrq(), fundValue);
         });
+    }
+
+    /**
+     * 添加自选基金
+     *
+     * @param code 基金代码
+     * @return FundModel
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public FundModel addOptionalFund(String code) {
+        FundModel fund = fundDao.selectByCode(code);
+
+        // 不存在基金数据，创建
+        if (fund == null) {
+            fund = this.createFundByCode(code);
+        }
+
+        // 新增自选基金关联数据
+        optionalFundRelationService.addOptionalFundRelation(fund);
+        return fund;
     }
 }

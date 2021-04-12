@@ -44,7 +44,7 @@ public class CrawlerService {
             result.setManager(managerNode.outerHtml());
         } catch (Exception e) {
             log.error("Fetch url {} error, following is reason: {}", path, e.getMessage(), e);
-            throw new RuntimeException("Fetch fund info error");
+            throw new RuntimeException("Fetch fund info error, probably caused by error code");
         }
         return FundModel.builder()
                 .name(result.getName())

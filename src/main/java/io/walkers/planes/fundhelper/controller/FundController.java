@@ -5,7 +5,6 @@ import io.walkers.planes.fundhelper.entity.pojo.Response;
 import io.walkers.planes.fundhelper.service.WriteFundService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,12 +24,23 @@ public class FundController {
 
     /**
      * 创建基金 & 基金净值
+     *
      * @param fundModel 基金模型
      * @return Response
      */
     @PostMapping("/create")
-    public Response<String> createFund(@RequestBody @Validated FundModel fundModel) {
-        writeFundService.createFundByCode(fundModel.getCode());
-        return Response.success();
+    public Response<FundModel> createFund(@Validated FundModel fundModel) {
+        return Response.success(writeFundService.createFundByCode(fundModel.getCode()));
+    }
+
+    /**
+     * 添加自选基金
+     *
+     * @param fundModel 基金模型
+     * @return Response
+     */
+    @PostMapping("/addOptionalFund")
+    public Response<FundModel> addOptionalFund(@Validated FundModel fundModel) {
+        return Response.success(writeFundService.addOptionalFund(fundModel.getCode()));
     }
 }

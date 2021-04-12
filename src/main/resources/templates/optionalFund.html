@@ -28,6 +28,7 @@
           <div class="col-lg-12">
             <div class="card">
               <div class="card-toolbar clearfix">
+                <!-- 右侧搜索栏 -->
                 <form class="pull-right search-bar" method="get" action="/searchOptionalFund">
                   <div class="input-group">
                     <div class="input-group-btn">
@@ -37,9 +38,39 @@
                     <input type="text" class="form-control" value="" id="keyword" name="keyword" placeholder="请输入关键字" />
                   </div>
                 </form>
+                <!-- 左侧按钮 -->
                 <div class="toolbar-btn-action">
+                  <!-- data-target 模态框 -->
+                  <a class="btn btn-danger m-r-5" data-toggle="modal" data-target="#addOptionalFund">
+                    <i class="mdi mdi-plus"></i>
+                    <span>新增</span>
+                  </a>
+                </div>
+                <!-- 添加自选基金模态框 -->
+                <div id="addOptionalFund" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addOptionalFundLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="addOptionalFundLabel">添加自选基金</h4>
+                      </div>
+                      <div class="modal-body">
+                        <form id="addOptionalFundForm" onsubmit="return false">
+                          <div class="form-group">
+                            <label for="codeFromAddOptionalFundForm" class="control-label">基金代码</label>
+                            <input type="text" class="form-control" id="codeFromAddOptionalFundForm" />
+                          </div>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <input type="submit" class="btn btn-primary" onclick="addOptionFundByCode()" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <!-- 列表 -->
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table table-bordered">
@@ -59,7 +90,8 @@
                         <td th:text="${entity.name}"></td>
                         <td th:text="${entity.type}"></td>
                         <td th:text="${entity.manager}"></td>
-                        <td th:text="${entity.createDate}"></td>
+                        <!-- java.util.Date 日期格式化 -->
+                        <td th:text="${#dates.format(entity.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                       </tr>
                     </tbody>
                   </table>

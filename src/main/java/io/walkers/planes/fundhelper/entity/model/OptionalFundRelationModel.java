@@ -1,5 +1,6 @@
 package io.walkers.planes.fundhelper.entity.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * @author 范逸东
  */
 @Data
+@Builder
 public class OptionalFundRelationModel {
     /**
      * 用户ID

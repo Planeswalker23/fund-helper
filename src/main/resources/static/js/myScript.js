@@ -150,13 +150,13 @@ function deleteEntity(path, inputId) {
         dataType: "json",
         success: function (data) {
             if (data.success === true) {
-                lightyear.notify(data.reason, 'success', 1000, 'mdi mdi-emoticon-happy', 'top', 'center');
+                lightyear.notify(data.message, 'success', 1000, 'mdi mdi-emoticon-happy', 'top', 'center');
                 // 1s 后刷新页面
                 setTimeout(function () {
                     window.location.reload();
                 }, 1000);
             } else {
-                lightyear.notify(data.reason, 'danger', 1500, 'mdi mdi-emoticon-sad', 'top', 'center');
+                lightyear.notify(data.message, 'danger', 1500, 'mdi mdi-emoticon-sad', 'top', 'center');
             }
         }
     });
@@ -173,13 +173,13 @@ function changeEntityStateEntity(path, inputId, currentState) {
         dataType: "json",
         success: function (data) {
             if (data.success === true) {
-                lightyear.notify(data.reason, 'success', 1000, 'mdi mdi-emoticon-happy', 'top', 'center');
+                lightyear.notify(data.message, 'success', 1000, 'mdi mdi-emoticon-happy', 'top', 'center');
                 // 1s 后刷新页面
                 setTimeout(function () {
                     window.location.reload();
                 }, 1000);
             } else {
-                lightyear.notify(data.reason, 'danger', 1500, 'mdi mdi-emoticon-sad', 'top', 'center');
+                lightyear.notify(data.message, 'danger', 1500, 'mdi mdi-emoticon-sad', 'top', 'center');
             }
         }
     });
@@ -236,14 +236,14 @@ function editOrAddEntity(path) {
         dataType: "json",// 预期服务器返回的数据类型
         success: function (data) {
             if (data.success === true) {
-                lightyear.notify(data.reason, 'success', 1500, 'mdi mdi-emoticon-happy', 'top', 'center');
+                lightyear.notify(data.message, 'success', 1500, 'mdi mdi-emoticon-happy', 'top', 'center');
                 // 2s 后刷新页面
                 setTimeout(function () {
                     window.location.reload();
                 }, 1000);
             } else {
                 // 消息提醒
-                lightyear.notify(data.reason, 'danger', 1500, 'mdi mdi-emoticon-sad', 'top', 'center');
+                lightyear.notify(data.message, 'danger', 1500, 'mdi mdi-emoticon-sad', 'top', 'center');
             }
         }
     });
@@ -257,4 +257,31 @@ function searchFunc(path) {
     } else {
         window.location.href = "/search" + path + "?keyword=" + keywords.value
     }
+}
+
+// 添加自选基金
+function addOptionFundByCode() {
+    let code = document.getElementById("codeFromAddOptionalFundForm");
+    console.log(code);
+    code = code.value;
+    console.log(code);
+    $.ajax({
+        type: "POST",
+        url: "/fund/addOptionalFund",
+        data: {
+            code: code
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.success === true) {
+                lightyear.notify(data.message, 'success', 1000, 'mdi mdi-emoticon-happy', 'top', 'center');
+                // 1s 后刷新页面
+                setTimeout(function () {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                lightyear.notify(data.message, 'danger', 1500, 'mdi mdi-emoticon-sad', 'top', 'center');
+            }
+        }
+    });
 }
