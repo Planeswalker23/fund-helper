@@ -2,7 +2,7 @@ package io.walkers.planes.fundhelper.controller;
 
 import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.pojo.Response;
-import io.walkers.planes.fundhelper.service.FundService;
+import io.walkers.planes.fundhelper.service.WriteFundService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,11 +21,16 @@ import javax.annotation.Resource;
 public class FundController {
 
     @Resource
-    private FundService fundService;
+    private WriteFundService writeFundService;
 
+    /**
+     * 创建基金 & 基金净值
+     * @param fundModel 基金模型
+     * @return Response
+     */
     @PostMapping("/create")
     public Response<String> createFund(@RequestBody @Validated FundModel fundModel) {
-        fundService.createFundByCode(fundModel.getCode());
+        writeFundService.createFundByCode(fundModel.getCode());
         return Response.success();
     }
 }

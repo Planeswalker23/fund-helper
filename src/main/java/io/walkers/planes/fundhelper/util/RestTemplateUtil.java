@@ -28,7 +28,7 @@ public class RestTemplateUtil {
     public static <T> T doGet(String url, Class<T> clazz, Map<String, Object> params) {
         if (!CollectionUtils.isEmpty(params)) {
             StringBuilder stringBuilder = new StringBuilder(url).append("?");
-            params.forEach((K, V) -> stringBuilder.append(K).append("=").append(V).append("&"));
+            params.forEach((key, value) -> stringBuilder.append(key).append("=").append(value).append("&"));
             url = stringBuilder.toString();
         }
         return REST_CLIENT.getForObject(url, clazz, params);

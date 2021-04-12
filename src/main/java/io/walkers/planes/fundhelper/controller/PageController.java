@@ -5,7 +5,7 @@ import io.walkers.planes.fundhelper.entity.dict.PageNameDict;
 import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.pojo.PageEntity;
 import io.walkers.planes.fundhelper.entity.pojo.PageModel;
-import io.walkers.planes.fundhelper.service.FundService;
+import io.walkers.planes.fundhelper.service.ReadFundService;
 import io.walkers.planes.fundhelper.util.SessionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -25,7 +25,7 @@ import java.util.List;
 public class PageController {
 
     @Resource
-    private FundService fundService;
+    private ReadFundService readFundService;
     @Resource
     private List<PageModel> pageModels;
 
@@ -51,7 +51,7 @@ public class PageController {
      */
     @GetMapping({"optionalFund", "index"})
     public String optionalFundPage(Model model, PageEntity pageEntity) {
-        PageInfo<FundModel> list = fundService.selectAllOptionalFund(pageEntity);
+        PageInfo<FundModel> list = readFundService.selectAllOptionalFund(pageEntity);
         this.injectModel(model, list, PageNameDict.OPTIONAL_FUND_NAME);
         return PageNameDict.OPTIONAL_FUND;
     }
@@ -64,7 +64,7 @@ public class PageController {
      */
     @GetMapping({"searchOptionalFund"})
     public String searchOptionalFundPage(Model model, String keyword, PageEntity pageEntity) {
-        PageInfo<FundModel> list = fundService.selectAllOptionalFundByKeyword(keyword, pageEntity);
+        PageInfo<FundModel> list = readFundService.selectAllOptionalFundByKeyword(keyword, pageEntity);
         this.injectModel(model, list, PageNameDict.OPTIONAL_FUND_NAME);
         return PageNameDict.OPTIONAL_FUND;
     }

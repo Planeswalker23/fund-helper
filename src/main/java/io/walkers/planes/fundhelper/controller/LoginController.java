@@ -20,6 +20,11 @@ public class LoginController {
     @Resource
     private VirtualUserService virtualUserService;
 
+    /**
+     * 用户登录(自动注册)
+     * @param virtualUser 用户
+     * @return Response
+     */
     @PostMapping("/login")
     public Response<VirtualUserModel> adminLogin(@Validated VirtualUserModel virtualUser) {
         return Response.success(virtualUserService.login(virtualUser));

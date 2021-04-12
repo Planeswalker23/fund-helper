@@ -21,6 +21,11 @@ public class CompensationController {
     @Resource
     private ApplicationContext applicationContext;
 
+    /**
+     * 计算基金净值日增长率
+     * @param code 基金代码
+     * @return Response
+     */
     @PostMapping("/increaseRate")
     public Response<String> recalculateIncreaseRate(String code) {
         applicationContext.publishEvent(new CalculateIncreaseRateEvent(code));

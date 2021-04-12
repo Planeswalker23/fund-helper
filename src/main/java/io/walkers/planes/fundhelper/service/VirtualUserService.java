@@ -40,6 +40,11 @@ public class VirtualUserService {
         return userResult;
     }
 
+    /**
+     * 创建用户
+     *
+     * @param virtualUser 用户
+     */
     public void createVirtualUser(VirtualUserModel virtualUser) {
         virtualUserDao.insert(virtualUser);
     }

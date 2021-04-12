@@ -1,23 +1,16 @@
 package io.walkers.planes.fundhelper.service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.walkers.planes.fundhelper.config.FundDataSource;
 import io.walkers.planes.fundhelper.dao.FundDao;
 import io.walkers.planes.fundhelper.dao.FundValueDao;
-import io.walkers.planes.fundhelper.dao.OptionalFundRelationDao;
-import io.walkers.planes.fundhelper.entity.dict.FundTypeDict;
 import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.model.FundValueModel;
-import io.walkers.planes.fundhelper.entity.model.OptionalFundRelationModel;
-import io.walkers.planes.fundhelper.entity.pojo.PageEntity;
 import io.walkers.planes.fundhelper.entity.pojo.SinaFundValueDetail;
 import io.walkers.planes.fundhelper.entity.pojo.SinaResult;
 import io.walkers.planes.fundhelper.listener.CalculateIncreaseRateEvent;
 import io.walkers.planes.fundhelper.util.RestTemplateUtil;
-import io.walkers.planes.fundhelper.util.SessionUtil;
 import io.walkers.planes.fundhelper.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -31,13 +24,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 执行 HTTP 请求服务
+ * 写入基金数据服务
  *
  * @author planeswalker23
+ * @see FundModel
+ * @see FundValueModel
  */
 @Slf4j
 @Service
-public class FundService {
+public class WriteFundService {
 
     @Resource
     private FundDataSource fundDataSource;
@@ -45,8 +40,6 @@ public class FundService {
     private FundDao fundDao;
     @Resource
     private FundValueDao fundValueDao;
-    @Resource
-    private OptionalFundRelationDao optionalFundRelationDao;
     @Resource
     private CrawlerService crawlerService;
     @Resource
@@ -116,71 +109,5 @@ public class FundService {
             fundValue.setValueDate(TimeUtil.string2Date(detail.getFbrq()));
             fundValueMapWithDateKey.put(detail.getFbrq(), fundValue);
         });
-    }
-
-    /**
-     * 查询所有 FundModel
-     *
-     * @param pageEntity 分页条件
-     * @return PageInfo
-     */
-    public PageInfo<FundModel> selectAll(PageEntity pageEntity) {
-        PageHelper.startPage(pageEntity.getPageNum(), pageEntity.getPageSize());
-        return new PageInfo<>(this.postFormatData(fundDao.selectAll()));
-    }
-
-    /**
-     * 根据关键词查询所有 FundModel
-     *
-     * @param keyword    关键词
-     * @param pageEntity 分页条件
-     * @return PageInfo
-     */
-    public PageInfo<FundModel> selectAllByKeyword(String keyword, PageEntity pageEntity) {
-        PageHelper.startPage(pageEntity.getPageNum(), pageEntity.getPageSize());
-        return new PageInfo<>(this.postFormatData(fundDao.selectByKeyword(keyword)));
-    }
-
-    /**
-     * 查询所有自选基金
-     *
-     * @param pageEntity 分页条件
-     * @return PageInfo
-     */
-    public PageInfo<FundModel> selectAllOptionalFund(PageEntity pageEntity) {
-        PageHelper.startPage(pageEntity.getPageNum(), pageEntity.getPageSize());
-        List<OptionalFundRelationModel> relations = optionalFundRelationDao.selectByVirtualUserId(SessionUtil.getLoginUser().getId());
-        List<Long> fundIds = Lists.transform(relations, OptionalFundRelationModel::getFundId);
-        List<FundModel> optionalFunds = CollectionUtils.isEmpty(fundIds) ? Lists.newArrayList() : fundDao.selectByIds(fundIds);
-        return new PageInfo<>(this.postFormatData(optionalFunds));
-    }
-
-    /**
-     * 根据关键词查询所有自选基金
-     *
-     * @param keyword    关键词
-     * @param pageEntity 分页条件
-     * @return PageInfo
-     */
-    public PageInfo<FundModel> selectAllOptionalFundByKeyword(String keyword, PageEntity pageEntity) {
-        PageHelper.startPage(pageEntity.getPageNum(), pageEntity.getPageSize());
-        return new PageInfo<>(this.postFormatData(fundDao.selectOptionalFundsByKeyword(SessionUtil.getLoginUser().getId(), keyword)));
-    }
-
-    /**
-     * 后置处理：格式化
-     *
-     * @param sourceData 源数据
-     * @return List
-     */
-    private List<FundModel> postFormatData(List<FundModel> sourceData) {
-        if (CollectionUtils.isEmpty(sourceData)) {
-            return sourceData;
-        }
-        sourceData.forEach(source -> {
-            // 基金类型展示为中文
-            source.setType(FundTypeDict.valueOf(source.getType()).getLabel());
-        });
-        return sourceData;
     }
 }

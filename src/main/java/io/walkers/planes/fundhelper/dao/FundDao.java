@@ -61,18 +61,4 @@ public interface FundDao {
      */
     @Select("select * from fund where (name like CONCAT('%', #{keyword}, '%') or code like CONCAT('%', #{keyword}, '%') or manager like CONCAT('%', #{keyword}, '%')) order by code")
     List<FundModel> selectByKeyword(String keyword);
-
-    /**
-     * 根据关键词查询自选基金
-     *
-     * @param virtualUserId 用户ID
-     * @param keyword       关键词
-     * @return List
-     */
-    @Select("select fund.* from fund " +
-            "left join optional_fund_relation on fund.id = optional_fund_relation.fund_id " +
-            "where optional_fund_relation.virtual_user_id = #{virtualUserId} " +
-            "and (fund.name like CONCAT('%', #{keyword}, '%') or fund.code like CONCAT('%', #{keyword}, '%') or fund.manager like CONCAT('%', #{keyword}, '%')) " +
-            "order by code")
-    List<FundModel> selectOptionalFundsByKeyword(Long virtualUserId, String keyword);
 }
