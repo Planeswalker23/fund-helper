@@ -28,6 +28,14 @@ public class OptionalFundRelationService {
      */
     public void addOptionalFundRelation(FundModel fund) {
         VirtualUserModel virtualUser = SessionUtil.getLoginUser();
+
+        // 校验该基金是否已加入自选
+        OptionalFundRelationModel alreadyAdd = optionalFundRelationDao.selectOne(fund.getId(), virtualUser.getId());
+        if (alreadyAdd != null) {
+            log.warn("Virtual user id={}, account={} has already put fund code={} name={} into optional", virtualUser.getId(), virtualUser.getAccount(), fund.getCode(), fund.getName());
+            throw new RuntimeException("Fund code " + fund.getCode() + " has already put into optional fund list.");
+        }
+
         OptionalFundRelationModel optionalFundRelation = OptionalFundRelationModel.builder()
                 .fundId(fund.getId())
                 .virtualUserId(virtualUser.getId())
