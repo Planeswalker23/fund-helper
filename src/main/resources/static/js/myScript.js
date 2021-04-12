@@ -262,14 +262,36 @@ function searchFunc(path) {
 // 添加自选基金
 function addOptionFundByCode() {
     let code = document.getElementById("codeFromAddOptionalFundForm");
-    console.log(code);
-    code = code.value;
-    console.log(code);
     $.ajax({
         type: "POST",
         url: "/fund/addOptionalFund",
         data: {
-            code: code
+            code: code.value
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.success === true) {
+                // 清空模态框
+                code.value = null;
+                lightyear.notify(data.message, 'success', 1000, 'mdi mdi-emoticon-happy', 'top', 'center');
+                // 1s 后刷新页面
+                setTimeout(function () {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                lightyear.notify(data.message, 'danger', 1500, 'mdi mdi-emoticon-sad', 'top', 'center');
+            }
+        }
+    });
+}
+
+// 取消自选基金
+function cancelOptionalFund(fundId) {
+    $.ajax({
+        type: "POST",
+        url: "/fund/cancelOptionalFund",
+        data: {
+            fundId: fundId
         },
         dataType: "json",
         success: function (data) {

@@ -30,7 +30,7 @@ public class FundModel implements Serializable {
     /**
      * 代码
      */
-    @NotBlank(message = "Fund code can not be empty`")
+    @NotBlank(message = "Fund code can not be empty")
     private String code;
     /**
      * 创建时间

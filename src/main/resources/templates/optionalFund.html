@@ -41,7 +41,7 @@
                 <!-- 左侧按钮 -->
                 <div class="toolbar-btn-action">
                   <!-- data-target 模态框 -->
-                  <a class="btn btn-danger m-r-5" data-toggle="modal" data-target="#addOptionalFund">
+                  <a class="btn btn-success m-r-5" data-toggle="modal" data-target="#addOptionalFund">
                     <i class="mdi mdi-plus"></i>
                     <span>新增</span>
                   </a>
@@ -92,6 +92,11 @@
                         <td th:text="${entity.manager}"></td>
                         <!-- java.util.Date 日期格式化 -->
                         <td th:text="${#dates.format(entity.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td>
+                          <div class="btn-group">
+                            <button class="btn btn-w-xs btn-danger" th:onclick="cancelOptionalFund([[${entity.id}]]);">取消自选</button>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>

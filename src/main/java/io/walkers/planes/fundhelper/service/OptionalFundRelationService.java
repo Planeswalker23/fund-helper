@@ -34,4 +34,14 @@ public class OptionalFundRelationService {
                 .build();
         optionalFundRelationDao.insert(optionalFundRelation);
     }
+
+    /**
+     * 取消自选基金
+     *
+     * @param fundId 基金ID
+     */
+    public void cancelOptionalFund(Long fundId) {
+        VirtualUserModel virtualUser = SessionUtil.getLoginUser();
+        optionalFundRelationDao.delete(fundId, virtualUser.getId());
+    }
 }
