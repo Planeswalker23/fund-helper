@@ -64,7 +64,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <input type="submit" class="btn btn-primary" onclick="addOptionFundByCode()" />
+                        <button type="button" class="btn btn-primary" id="confirmAddOptionFundByCodeButton" onclick="addOptionFundByCode()" autocomplete="off">确认</button>
                       </div>
                     </div>
                   </div>
@@ -80,7 +80,7 @@
                         <th>基金名称</th>
                         <th>基金类型</th>
                         <th>基金经理</th>
-                        <th>创建时间</th>
+                        <th>成立日期</th>
                         <th>操作</th>
                       </tr>
                     </thead>
@@ -91,7 +91,7 @@
                         <td th:text="${entity.type}"></td>
                         <td th:text="${entity.manager}"></td>
                         <!-- java.util.Date 日期格式化 -->
-                        <td th:text="${#dates.format(entity.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${#dates.format(entity.establishDate, 'yyyy-MM-dd')}"></td>
                         <td>
                           <div class="btn-group">
                             <button class="btn btn-w-xs btn-danger" th:onclick="cancelOptionalFund([[${entity.id}]]);">取消自选</button>

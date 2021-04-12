@@ -27,7 +27,8 @@ public class TimeUtil {
     public static java.sql.Date string2Date(String timeString) {
         java.util.Date time;
         try {
-            time = TimeFormatDict.YYYY_MM_DD.parse(timeString);
+            // 取字符串前10位
+            time = TimeFormatDict.YYYY_MM_DD.parse(timeString.substring(0, 10));
         } catch (Exception e) {
             log.error("Date format failed, source parameter is: {}, caused by: ", timeString, e);
             throw new RuntimeException("Date format failed");

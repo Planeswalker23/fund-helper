@@ -15,7 +15,6 @@ A widget for helping investors manage funds.
     - [x] 展示基金(包含分页)
     - [x] 搜索功能
     - [x] 自选基金(新增，取消)
-      - [ ] 新增自选基金支持下拉框批量选择
 
 优化项:
 
@@ -24,3 +23,6 @@ A widget for helping investors manage funds.
 - [x] 统一异常处理机制
 - [x] 页面左侧导航栏根据 PageConfig Bean 动态展示
 - [x] 登录拦截器，未登录转发至登录页面
+- [ ] 支持下拉框批量选择(仅支持从现有基金中选取)
+- [x] 基金模型新增成立日期字段
+- [x] 新增页面加载等待效果

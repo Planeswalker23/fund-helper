@@ -4,8 +4,8 @@
 <mapper namespace="io.walkers.planes.fundhelper.dao.FundDao">
     <insert id="insert" parameterType="io.walkers.planes.fundhelper.entity.model.FundModel" useGeneratedKeys="true"
             keyProperty="id">
-        insert into fund (name, code, create_date, update_date, type, manager)
-        values (#{fund.name}, #{fund.code}, now(), now(), #{fund.type}, #{fund.manager})
+        insert into fund (name, code, create_date, update_date, type, manager, establish_date)
+        values (#{fund.name}, #{fund.code}, now(), now(), #{fund.type}, #{fund.manager}, #{fund.establishDate})
     </insert>
 
     <select id="selectByIds" parameterType="java.util.List" resultType="io.walkers.planes.fundhelper.entity.model.FundModel">
@@ -23,6 +23,7 @@
             create_date, update_date,
             <if test="fund.type!=null">type,</if>
             <if test="fund.manager!=null">manager,</if>
+            <if test="fund.establishDate!=null">establish_date,</if>
         </trim>
         ) values (
         <trim suffixOverrides=",">
@@ -32,6 +33,7 @@
             now(), now(),
             <if test="fund.type!=null">#{fund.type},</if>
             <if test="fund.manager!=null">#{fund.manager},</if>
+            <if test="fund.establishDate!=null">#{fund.establishDate},</if>
         </trim>
         )
     </insert>

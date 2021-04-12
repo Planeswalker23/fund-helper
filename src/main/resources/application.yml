@@ -9,6 +9,8 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss]
   jpa:
     dashow-sql: true
+  thymeleaf:
+    cache: false
 
 logging:
   level:

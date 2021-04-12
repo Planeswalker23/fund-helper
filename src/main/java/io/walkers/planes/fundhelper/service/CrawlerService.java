@@ -4,6 +4,7 @@ import io.walkers.planes.fundhelper.config.FundDataSource;
 import io.walkers.planes.fundhelper.entity.dict.FundTypeDict;
 import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.pojo.EastMoneyResult;
+import io.walkers.planes.fundhelper.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -35,13 +36,16 @@ public class CrawlerService {
             Node nameNode = doc.getElementsByClass(TITLE).get(0).childNode(0).childNode(0);
             result.setName(nameNode.outerHtml().replace("\n", ""));
 
-            Node infoNode = doc.getElementsByClass(INFO).get(0).childNode(1).childNode(0).childNode(0);
+            Node infoNode = doc.getElementsByClass(INFO).get(0).childNode(1).childNode(0);
             // 基金类型
-            Node typeNode = infoNode.childNode(0).childNode(1).childNode(0);
+            Node typeNode = infoNode.childNode(0).childNode(0).childNode(1).childNode(0);
             result.setType(typeNode.outerHtml());
             // 基金经理
-            Node managerNode = infoNode.childNode(2).childNode(1).childNode(0);
+            Node managerNode = infoNode.childNode(0).childNode(2).childNode(1).childNode(0);
             result.setManager(managerNode.outerHtml());
+            // 成立日期
+            Node establishDateNode = infoNode.childNode(1).childNode(0).childNode(1);
+            result.setEstablishDate(establishDateNode.outerHtml().replace("：", ""));
         } catch (Exception e) {
             log.error("Fetch url {} error, following is reason: {}", path, e.getMessage(), e);
             throw new RuntimeException("Fetch fund info error, probably caused by error code");
@@ -51,6 +55,7 @@ public class CrawlerService {
                 .code(code)
                 .type(FundTypeDict.containsValue(result.getType()).name())
                 .manager(result.getManager())
+                .establishDate(TimeUtil.string2Date(result.getEstablishDate()))
                 .build();
     }
 }

@@ -1,13 +1,14 @@
 drop table if exists fund;
 create table fund
 (
-    `id`          bigint(20) not null AUTO_INCREMENT comment '主键',
-    `name`        varchar(32) default null comment '名称',
-    `code`        varchar(16) default null comment '代码',
-    `create_date` datetime    default null comment '创建日期',
-    `update_date` datetime    default null on update current_timestamp comment '更新时间',
-    `type`        varchar(16) default null comment '基金类型',
-    `manager`     varchar(16) default null comment '基金经理',
+    `id`             bigint(20) not null AUTO_INCREMENT comment '主键',
+    `name`           varchar(32) default null comment '名称',
+    `code`           varchar(16) default null comment '代码',
+    `create_date`    datetime    default null comment '创建日期',
+    `update_date`    datetime    default null on update current_timestamp comment '更新时间',
+    `type`           varchar(16) default null comment '基金类型',
+    `manager`        varchar(16) default null comment '基金经理',
+    `establish_date` date        default null comment '成立日期',
     primary key (`id`)
 );
 

@@ -21,4 +21,8 @@ public class EastMoneyResult {
      * 基金经理
      */
     private String manager;
+    /**
+     * 成立日期
+     */
+    private String establishDate;
 }

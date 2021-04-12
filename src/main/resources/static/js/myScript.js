@@ -251,17 +251,26 @@ function editOrAddEntity(path) {
 
 // path变量首字母需要大写，接口名是驼峰的
 function searchFunc(path) {
+    lightyear.loading('show');
     let keywords = document.getElementById("keyword");
     if (keywords == null || (keywords.value!=null && keywords.value.length === 0)) {
         lightyear.notify("请输入关键字", 'danger', 1000, 'mdi mdi-emoticon-sad', 'top', 'center');
     } else {
         window.location.href = "/search" + path + "?keyword=" + keywords.value
     }
+    lightyear.loading('hide');
 }
 
 // 添加自选基金
 function addOptionFundByCode() {
     let code = document.getElementById("codeFromAddOptionalFundForm");
+    // 确认按钮禁用，等待状态
+    let confirmButton = document.getElementById("confirmAddOptionFundByCodeButton");
+    confirmButton.className = "btn btn-primary disabled";
+    confirmButton.innerHTML = "处理中..."
+    confirmButton.disabled = "true"
+    // 页面加载等待效果
+    lightyear.loading('show');
     $.ajax({
         type: "POST",
         url: "/fund/addOptionalFund",
@@ -270,6 +279,12 @@ function addOptionFundByCode() {
         },
         dataType: "json",
         success: function (data) {
+            // 恢复确认按钮
+            confirmButton.className = "btn btn-primary";
+            confirmButton.innerHTML = "确认"
+            confirmButton.disabled = "false"
+            // 隐藏页面加载等待效果
+            lightyear.loading('hide');
             if (data.success === true) {
                 // 清空模态框
                 code.value = null;
@@ -287,6 +302,8 @@ function addOptionFundByCode() {
 
 // 取消自选基金
 function cancelOptionalFund(fundId) {
+    // 页面加载等待效果
+    lightyear.loading('show');
     $.ajax({
         type: "POST",
         url: "/fund/cancelOptionalFund",
@@ -295,6 +312,7 @@ function cancelOptionalFund(fundId) {
         },
         dataType: "json",
         success: function (data) {
+            lightyear.loading('hide');
             if (data.success === true) {
                 lightyear.notify(data.message, 'success', 1000, 'mdi mdi-emoticon-happy', 'top', 'center');
                 // 1s 后刷新页面

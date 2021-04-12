@@ -50,4 +50,8 @@ public class FundModel implements Serializable {
      * 基金经理
      */
     private String manager;
+    /**
+     * 成立日期
+     */
+    private java.sql.Date establishDate;
 }
