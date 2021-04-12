@@ -279,10 +279,6 @@ function addOptionFundByCode() {
         },
         dataType: "json",
         success: function (data) {
-            // 恢复确认按钮
-            confirmButton.className = "btn btn-primary";
-            confirmButton.innerHTML = "确认"
-            confirmButton.disabled = "false"
             // 隐藏页面加载等待效果
             lightyear.loading('hide');
             if (data.success === true) {
@@ -296,6 +292,10 @@ function addOptionFundByCode() {
             } else {
                 lightyear.notify(data.message, 'danger', 1500, 'mdi mdi-emoticon-sad', 'top', 'center');
             }
+            // 恢复确认按钮
+            confirmButton.className = "btn btn-primary";
+            confirmButton.innerHTML = "确认"
+            confirmButton.disabled = null
         }
     });
 }
