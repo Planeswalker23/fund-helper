@@ -2,13 +2,11 @@ package io.walkers.planes.fundhelper.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.common.collect.Lists;
 import io.walkers.planes.fundhelper.dao.FundDao;
 import io.walkers.planes.fundhelper.dao.JoinSubQueryDao;
 import io.walkers.planes.fundhelper.dao.OptionalFundRelationDao;
 import io.walkers.planes.fundhelper.entity.dict.FundTypeDict;
 import io.walkers.planes.fundhelper.entity.model.FundModel;
-import io.walkers.planes.fundhelper.entity.model.OptionalFundRelationModel;
 import io.walkers.planes.fundhelper.entity.pojo.PageEntity;
 import io.walkers.planes.fundhelper.util.SessionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -65,9 +63,7 @@ public class ReadFundService {
      */
     public PageInfo<FundModel> selectAllOptionalFund(PageEntity pageEntity) {
         PageHelper.startPage(pageEntity.getPageNum(), pageEntity.getPageSize());
-        List<OptionalFundRelationModel> relations = optionalFundRelationDao.selectByVirtualUserId(SessionUtil.getLoginUser().getId());
-        List<Long> fundIds = Lists.transform(relations, OptionalFundRelationModel::getFundId);
-        List<FundModel> optionalFunds = CollectionUtils.isEmpty(fundIds) ? Lists.newArrayList() : fundDao.selectByIds(fundIds);
+        List<FundModel> optionalFunds = joinSubQueryDao.selectByVirtualUserId(SessionUtil.getLoginUser().getId());
         return new PageInfo<>(this.postFormatData(optionalFunds));
     }
 

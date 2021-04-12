@@ -1,9 +1,10 @@
 package io.walkers.planes.fundhelper.dao;
 
 import io.walkers.planes.fundhelper.entity.model.OptionalFundRelationModel;
-import org.apache.ibatis.annotations.*;
-
-import java.util.List;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Dao of {@link OptionalFundRelationModel}
@@ -12,14 +13,6 @@ import java.util.List;
  */
 @Mapper
 public interface OptionalFundRelationDao {
-    /**
-     * 根据 virtualUserId 查询自选基金
-     *
-     * @param virtualUserId 用户ID
-     * @return List
-     */
-    @Select("select * from optional_fund_relation where virtual_user_id=#{virtualUserId}")
-    List<OptionalFundRelationModel> selectByVirtualUserId(@Param("virtualUserId") Long virtualUserId);
 
     /**
      * 自选基金绑定
