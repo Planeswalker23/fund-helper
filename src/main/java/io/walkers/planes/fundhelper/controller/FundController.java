@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Fund 控制层
@@ -69,7 +70,7 @@ public class FundController {
      * @return Response
      */
     @PostMapping("/cancelOptionalFund")
-    public Response<String> cancelOptionalFund(@RequestParam("fundId") @NotBlank Long fundId) {
+    public Response<String> cancelOptionalFund(@RequestParam("fundId") @NotNull Long fundId) {
         optionalFundRelationService.cancelOptionalFund(fundId);
         return Response.success();
     }

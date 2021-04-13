@@ -34,12 +34,9 @@ public class SessionUtil {
     public static VirtualUserModel getLoginUser() {
         VirtualUserModel user = (VirtualUserModel) getSession().getAttribute("loginUser");
         if (user == null) {
-            // 未登录，抛出异常
             throw new RuntimeException("Not login");
-        } else {
-            log.debug("Fetch login message success, user message: {}", JacksonUtil.toJson(user));
-            return user;
         }
+        return user;
     }
 
     /**

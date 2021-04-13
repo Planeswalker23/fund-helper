@@ -14,6 +14,7 @@ A widget for helping investors manage funds.
     - [x] 展示基金(包含分页)
     - [x] 搜索功能
     - [x] 自选基金(新增，取消)
+    - [ ] 基金业绩走势折线图
 
 ## 优化项:
 ### 通用向

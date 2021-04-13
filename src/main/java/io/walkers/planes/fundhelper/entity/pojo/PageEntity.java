@@ -16,5 +16,5 @@ public class PageEntity {
     /**
      * 每页数目
      */
-    private Integer pageSize = 5;
+    private Integer pageSize = 10;
 }
