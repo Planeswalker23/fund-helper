@@ -5,18 +5,21 @@ import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.pojo.Response;
 import io.walkers.planes.fundhelper.listener.FetchFundValueEvent;
 import org.springframework.context.ApplicationContext;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 补偿接口控制层
  *
  * @author planeswalker23
  */
+@Validated
 @RestController
 @RequestMapping("/compensation")
 public class CompensationController {
@@ -32,7 +35,7 @@ public class CompensationController {
      * @return Response
      */
     @PostMapping("/increaseRate")
-    public Response<String> recalculateIncreaseRate(@RequestParam("code") String code) {
+    public Response<String> recalculateIncreaseRate(@RequestParam("code") @NotBlank String code) {
         FundModel fundModel = fundDao.selectByCode(code);
         applicationContext.publishEvent(new FetchFundValueEvent(fundModel));
         return Response.success();

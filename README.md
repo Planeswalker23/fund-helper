@@ -21,6 +21,7 @@ A widget for helping investors manage funds.
 - [x] 通用返回类
 - [x] 统一异常处理机制
 - [x] 登录拦截器，未登录转发至登录页面
+- [x] Controller 参数校验
 
 ### 业务向
 - [x] 页面左侧导航栏根据 PageConfig Bean 动态展示
