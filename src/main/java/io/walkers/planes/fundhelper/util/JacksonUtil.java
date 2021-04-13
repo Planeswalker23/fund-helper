@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class JacksonUtil {
         // String转化为实体类时，忽略String中存在而实体类不存在的字段，防止报错
         objectMapperFromSpring.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         // 序列化时，自定义Date类型的格式化方式
-        objectMapperFromSpring.setDateFormat(TimeFormatDict.YYYY_MM_DD_HH_MM_SS);
+        objectMapperFromSpring.setDateFormat(new SimpleDateFormat(TimeFormatDict.FORMAT_YYYY_MM_DD_HH_MM_SS));
         objectMapper = objectMapperFromSpring;
     }
 }

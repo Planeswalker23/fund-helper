@@ -3,21 +3,16 @@ package io.walkers.planes.fundhelper.util;
 import io.walkers.planes.fundhelper.entity.dict.TimeFormatDict;
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 /**
  * @author planeswalker23
  */
 @Slf4j
 public class TimeUtil {
 
-    /**
-     * 时间格式化 java.util.Date to String
-     *
-     * @param time 时间入参
-     * @return String
-     */
-    public static String date2String(java.util.Date time) {
-        return TimeFormatDict.YYYY_MM_DD_HH_MM_SS.format(time);
-    }
+    private static ThreadLocal<DateFormat> SQL_DATE_FORMAT_THREAD_LOCAL = ThreadLocal.withInitial(() -> new SimpleDateFormat(TimeFormatDict.FORMAT_YYYY_MM_DD));
 
     /**
      * 时间格式化 String to java.sql.Date
@@ -28,7 +23,7 @@ public class TimeUtil {
         java.util.Date time;
         try {
             // 取字符串前10位
-            time = TimeFormatDict.YYYY_MM_DD.parse(timeString.substring(0, 10));
+            time = SQL_DATE_FORMAT_THREAD_LOCAL.get().parse(timeString.substring(0, 10));
         } catch (Exception e) {
             log.error("Date format failed, source parameter is: {}, caused by: ", timeString, e);
             throw new RuntimeException("Date format failed");
