@@ -75,4 +75,17 @@ public class WriteFundService {
         optionalFundRelationService.addOptionalFundRelation(fund);
         return fund;
     }
+
+    /**
+     * 批量添加自选基金
+     *
+     * @param codes 基金代码列表
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void batchAddOptionalFund(String codes) {
+        String[] codeArray = codes.split(",");
+        for (String code : codeArray) {
+            this.addOptionalFund(code);
+        }
+    }
 }

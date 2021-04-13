@@ -263,7 +263,7 @@ function searchFunc(path) {
 
 // 添加自选基金
 function addOptionFundByCode() {
-    let code = document.getElementById("codeFromAddOptionalFundForm");
+    let codes = document.getElementById("codesFromAddOptionalFundForm");
     // 确认按钮禁用，等待状态
     let confirmButton = document.getElementById("confirmAddOptionFundByCodeButton");
     confirmButton.className = "btn btn-primary disabled";
@@ -273,9 +273,9 @@ function addOptionFundByCode() {
     lightyear.loading('show');
     $.ajax({
         type: "POST",
-        url: "/fund/addOptionalFund",
+        url: "/fund/batchAddOptionalFund",
         data: {
-            code: code.value
+            codes: codes.value
         },
         dataType: "json",
         success: function (data) {
@@ -283,7 +283,7 @@ function addOptionFundByCode() {
             lightyear.loading('hide');
             if (data.success === true) {
                 // 清空模态框
-                code.value = null;
+                codes.value = null;
                 lightyear.notify(data.message, 'success', 1000, 'mdi mdi-emoticon-happy', 'top', 'center');
                 // 1s 后刷新页面
                 setTimeout(function () {

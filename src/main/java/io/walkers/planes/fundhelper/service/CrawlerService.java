@@ -10,6 +10,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
@@ -28,6 +29,9 @@ public class CrawlerService {
     private FundDataSource fundDataSource;
 
     public FundModel getFundByCode(String code) {
+        if (!StringUtils.hasText(code)) {
+            throw new RuntimeException("Fetch fund info error, caused by empty fund code");
+        }
         String path = fundDataSource.getDetailPathPrefix() + code + fundDataSource.getDetailPathSuffix();
         EastMoneyResult result = new EastMoneyResult();
         try {

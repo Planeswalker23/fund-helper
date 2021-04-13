@@ -28,4 +28,5 @@ A widget for helping investors manage funds.
 - [x] 基金模型新增成立日期字段
 - [x] 新增页面加载等待效果
 - [x] 新增基金信息，净值&日增长率异步处理(基于 SpringBoot 事件机制)
+- [x] 基金批量自选
 - [ ] 支持下拉框批量选择(仅支持从现有基金中选取)
