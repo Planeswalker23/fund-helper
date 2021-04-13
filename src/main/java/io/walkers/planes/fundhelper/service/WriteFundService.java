@@ -1,27 +1,15 @@
 package io.walkers.planes.fundhelper.service;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import io.walkers.planes.fundhelper.config.FundDataSource;
 import io.walkers.planes.fundhelper.dao.FundDao;
-import io.walkers.planes.fundhelper.dao.FundValueDao;
 import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.model.FundValueModel;
-import io.walkers.planes.fundhelper.entity.pojo.SinaFundValueDetail;
-import io.walkers.planes.fundhelper.entity.pojo.SinaResult;
-import io.walkers.planes.fundhelper.listener.CalculateIncreaseRateEvent;
-import io.walkers.planes.fundhelper.util.RestTemplateUtil;
-import io.walkers.planes.fundhelper.util.TimeUtil;
+import io.walkers.planes.fundhelper.listener.FetchFundValueEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 写入基金数据服务
@@ -35,11 +23,7 @@ import java.util.Map;
 public class WriteFundService {
 
     @Resource
-    private FundDataSource fundDataSource;
-    @Resource
     private FundDao fundDao;
-    @Resource
-    private FundValueDao fundValueDao;
     @Resource
     private CrawlerService crawlerService;
     @Resource
@@ -63,61 +47,13 @@ public class WriteFundService {
         }
         // 获取基金数据
         fund = crawlerService.getFundByCode(code);
+        // 持久化基金信息
         fundDao.insertSelective(fund);
         log.info("Fund data create successfully, code is {}", code);
 
-        // 获取基金净值数据
-        this.saveFundDetails(fund);
-        log.info("Fund value data create successfully, code is {}", code);
-
-        // 发布事件：计算日增长率
-        applicationContext.publishEvent(new CalculateIncreaseRateEvent(fund.getId()));
+        // 发布事件：获取基金净值
+        applicationContext.publishEvent(new FetchFundValueEvent(fund));
         return fund;
-    }
-
-    /**
-     * 获取基金净值数据并保存
-     *
-     * @param fund 基金信息
-     */
-    private void saveFundDetails(FundModel fund) {
-        // 请求参数绑定
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("symbol", fund.getCode());
-
-        Map<String, FundValueModel> fundValueMapWithDateKey = Maps.newLinkedHashMapWithExpectedSize(1000);
-        for (int i = 1; ; i++) {
-            // 设置页码
-            params.put("page", i);
-            // 获取数据
-            SinaResult result = RestTemplateUtil.doGet(fundDataSource.getValuePath(), SinaResult.class, params);
-            // 中断循环的判断
-            if (result == null || result.isEmpty()) {
-                break;
-            }
-            this.buildFundValueBySinaFundDetail(fund, result.getData(), fundValueMapWithDateKey);
-        }
-        if (!CollectionUtils.isEmpty(fundValueMapWithDateKey)) {
-            fundValueDao.insertBatchWithoutIncreaseRate(Lists.newArrayList(fundValueMapWithDateKey.values()));
-        }
-    }
-
-    /**
-     * 数据源实体 FundValueDetail 转换为 FundValueModel
-     *
-     * @param fund                    归属基金
-     * @param sinaFundValueDetails    数据源
-     * @param fundValueMapWithDateKey 转换结果
-     */
-    private void buildFundValueBySinaFundDetail(FundModel fund, List<SinaFundValueDetail> sinaFundValueDetails, Map<String, FundValueModel> fundValueMapWithDateKey) {
-        sinaFundValueDetails.forEach(detail -> {
-            FundValueModel fundValue = FundValueModel.builder()
-                    .fundId(fund.getId())
-                    .value(new BigDecimal(detail.getLjjz()))
-                    .build();
-            fundValue.setValueDate(TimeUtil.string2Date(detail.getFbrq()));
-            fundValueMapWithDateKey.put(detail.getFbrq(), fundValue);
-        });
     }
 
     /**

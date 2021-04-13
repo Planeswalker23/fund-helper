@@ -37,7 +37,7 @@ public class SessionUtil {
             // 未登录，抛出异常
             throw new RuntimeException("Not login");
         } else {
-            log.info("Fetch login message success, user message: {}", JacksonUtil.toJson(user));
+            log.debug("Fetch login message success, user message: {}", JacksonUtil.toJson(user));
             return user;
         }
     }

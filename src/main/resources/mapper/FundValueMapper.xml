@@ -4,16 +4,14 @@
 <mapper namespace="io.walkers.planes.fundhelper.dao.FundValueDao">
 
     <insert id="insertBatchWithoutIncreaseRate" parameterType="java.util.List">
-        insert into fund_value (fund_id, value_date, value, create_date, update_date) values
+        insert into fund_value (fund_id, value_date, value, create_date, update_date, increase_rate) values
         <foreach collection="list" index="index" item="item" separator=",">
-            (#{item.fundId},#{item.valueDate},#{item.value},now(),now())
+            (#{item.fundId},#{item.valueDate},#{item.value},now(),now(),
+            <choose>
+                <when test="item.increaseRate==null">0.00</when>
+                <otherwise>#{item.increaseRate}</otherwise>
+            </choose>
+            )
         </foreach>
     </insert>
-
-    <!--  数据库连接需要支持批量操作: &allowMultiQueries=true  -->
-    <update id="batchUpdateIncreaseRateById" parameterType="java.util.List">
-        <foreach collection="list" index="index" item="item" open="" close="" separator=";">
-            update fund_value set increase_rate=#{item.increaseRate} where id=#{item.id}
-        </foreach>
-    </update>
 </mapper>

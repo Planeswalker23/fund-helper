@@ -3,11 +3,11 @@ package io.walkers.planes.fundhelper.listener;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * 计算日增长率时间
+ * 获取基金净值, 计算日增长率事件
  *
  * @author planeswalker23
  */
-public class CalculateIncreaseRateEvent extends ApplicationEvent {
+public class FetchFundValueEvent extends ApplicationEvent {
 
     /**
      * Create a new {@code ApplicationEvent}.
@@ -15,7 +15,7 @@ public class CalculateIncreaseRateEvent extends ApplicationEvent {
      * @param source the object on which the event initially occurred or with
      *               which the event is associated (never {@code null})
      */
-    public CalculateIncreaseRateEvent(Object source) {
+    public FetchFundValueEvent(Object source) {
         super(source);
     }
 }

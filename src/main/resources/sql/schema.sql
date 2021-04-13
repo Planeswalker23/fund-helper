@@ -37,6 +37,8 @@ create table virtual_user
     primary key (`id`)
 );
 
+insert into virtual_user values(1, now(), now(), 'root', 'password');
+
 drop table if exists optional_fund_relation;
 create table optional_fund_relation
 (

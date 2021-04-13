@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -30,7 +29,6 @@ public class FundModel implements Serializable {
     /**
      * 代码
      */
-    @NotBlank(message = "Fund code can not be empty")
     private String code;
     /**
      * 创建时间

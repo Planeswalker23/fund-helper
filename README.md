@@ -2,8 +2,7 @@ A widget for helping investors manage funds.
 
 一款帮助投资者管理基金小工具
 
-功能项:
-
+## 功能项:
 - [x] 获取基金净值详情(基于 RestTemplate 调用新浪财经 API)
 - [x] 获取基金基础信息(基于 Jsoup 爬取天天基金网数据)
 - [x] 计算基金日增长率(基于 SpringBoot 事件机制)
@@ -16,13 +15,16 @@ A widget for helping investors manage funds.
     - [x] 搜索功能
     - [x] 自选基金(新增，取消)
 
-优化项:
-
+## 优化项:
+### 通用向
 - [x] 基于 @ConfigurationProperties 实现 application.yml 配置文件中路由配置项与 Bean 的映射
 - [x] 通用返回类
 - [x] 统一异常处理机制
-- [x] 页面左侧导航栏根据 PageConfig Bean 动态展示
 - [x] 登录拦截器，未登录转发至登录页面
-- [ ] 支持下拉框批量选择(仅支持从现有基金中选取)
+
+### 业务向
+- [x] 页面左侧导航栏根据 PageConfig Bean 动态展示
 - [x] 基金模型新增成立日期字段
 - [x] 新增页面加载等待效果
+- [x] 新增基金信息，净值&日增长率异步处理(基于 SpringBoot 事件机制)
+- [ ] 支持下拉框批量选择(仅支持从现有基金中选取)
