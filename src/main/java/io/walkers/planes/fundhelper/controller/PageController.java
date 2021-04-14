@@ -44,12 +44,24 @@ public class PageController {
     }
 
     /**
+     * 首页
+     *
+     * @param model 页面 Model 对象
+     * @return String
+     */
+    @GetMapping({"index"})
+    public String indexPage(Model model) {
+        this.injectModel(model, null, PageNameDict.INDEX_NAME);
+        return PageNameDict.INDEX;
+    }
+
+    /**
      * 自选基金页面
      *
      * @param model 页面 Model 对象
      * @return String
      */
-    @GetMapping({"optionalFund", "index"})
+    @GetMapping({"optionalFund"})
     public String optionalFundPage(Model model, PageEntity pageEntity) {
         PageInfo<FundModel> list = readFundService.selectAllOptionalFund(pageEntity);
         this.injectModel(model, list, PageNameDict.OPTIONAL_FUND_NAME);

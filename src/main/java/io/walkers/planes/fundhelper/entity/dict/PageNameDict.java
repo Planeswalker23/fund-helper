@@ -7,6 +7,9 @@ package io.walkers.planes.fundhelper.entity.dict;
  */
 public interface PageNameDict {
 
+    String INDEX = "index";
+    String INDEX_NAME = "首页";
+
     String OPTIONAL_FUND = "optionalFund";
     String OPTIONAL_FUND_NAME = "自选基金";
 
