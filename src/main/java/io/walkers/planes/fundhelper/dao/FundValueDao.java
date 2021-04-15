@@ -30,4 +30,15 @@ public interface FundValueDao {
      */
     @Select("select * from fund_value where fund_id = #{fundId} order by value_date desc")
     List<FundValueModel> selectByFundId(@Param("fundId") Long fundId);
+
+    /**
+     * 根据 fundId 查询所有净值
+     *
+     * @param fundId      基金ID
+     * @param targetDate  目标日期
+     * @param currentDate 当前日期
+     * @return List
+     */
+    @Select("select * from fund_value where fund_id = #{fundId} and value_date between #{targetDate} and #{currentDate} order by value_date")
+    List<FundValueModel> selectByFundIdAndDate(@Param("fundId") Long fundId, @Param("targetDate") java.sql.Date targetDate, @Param("currentDate") java.sql.Date currentDate);
 }

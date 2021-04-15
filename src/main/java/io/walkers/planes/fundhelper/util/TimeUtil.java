@@ -1,10 +1,14 @@
 package io.walkers.planes.fundhelper.util;
 
+import io.walkers.planes.fundhelper.entity.dict.DateTypeDict;
 import io.walkers.planes.fundhelper.entity.dict.TimeFormatDict;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneOffset;
 
 /**
  * @author planeswalker23
@@ -38,5 +42,30 @@ public class TimeUtil {
             throw new RuntimeException("Date format failed");
         }
         return time;
+    }
+
+    /**
+     * 根据日期类型计算新日期
+     * Example: formerDate("MONTH") -> return Date of a month ago
+     * @param dateType 日期类型
+     * @return java.sql.Date
+     */
+    public static java.sql.Date formerDate(String dateType) {
+        LocalDate currentDate = LocalDate.now();
+        // 根据入参判断计算间隔
+        Period period = Period.ZERO;
+        if (DateTypeDict.WEEK.name().equals(dateType)) {
+            period = Period.ofWeeks(1);
+        } else if (DateTypeDict.MONTH.name().equals(dateType)) {
+            period = Period.ofMonths(1);
+        } else if (DateTypeDict.THREE_MONTH.name().equals(dateType)) {
+            period = Period.ofMonths(3);
+        } else if (DateTypeDict.HALF_YEAR.name().equals(dateType)) {
+            period = Period.ofMonths(6);
+        } else if (DateTypeDict.YEAR.name().equals(dateType)) {
+            period = Period.ofYears(1);
+        }
+        currentDate = currentDate.minus(period);
+        return new java.sql.Date(currentDate.atStartOfDay().toInstant(ZoneOffset.of("+8")).toEpochMilli());
     }
 }
