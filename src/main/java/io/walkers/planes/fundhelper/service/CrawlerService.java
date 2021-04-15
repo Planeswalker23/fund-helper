@@ -4,7 +4,6 @@ import io.walkers.planes.fundhelper.config.FundDataSource;
 import io.walkers.planes.fundhelper.entity.dict.FundTypeDict;
 import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.pojo.EastMoneyResult;
-import io.walkers.planes.fundhelper.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -52,14 +51,18 @@ public class CrawlerService {
             result.setEstablishDate(establishDateNode.outerHtml().replace("：", ""));
         } catch (Exception e) {
             log.error("Fetch url {} error, following is reason: {}", path, e.getMessage(), e);
-            throw new RuntimeException("Fetch fund info error, probably caused by error code");
+            throw new RuntimeException(String.format("Download fund info error, probably this code {%s} is wrong", code));
+        }
+        FundTypeDict fundType = FundTypeDict.containsValue(result.getType());
+        if (fundType == null) {
+            throw new RuntimeException(String.format("Fund type is not exist, probably this code {%s} is wrong", code));
         }
         return FundModel.builder()
                 .name(result.getName())
                 .code(code)
-                .type(FundTypeDict.containsValue(result.getType()).name())
+                .type(fundType.name())
                 .manager(result.getManager())
-                .establishDate(TimeUtil.string2Date(result.getEstablishDate()))
+                .establishDate(java.sql.Date.valueOf(result.getEstablishDate()))
                 .build();
     }
 }

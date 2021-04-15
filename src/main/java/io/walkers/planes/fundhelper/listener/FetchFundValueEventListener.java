@@ -92,7 +92,7 @@ public class FetchFundValueEventListener implements ApplicationListener<FetchFun
             FundValueModel fundValue = FundValueModel.builder()
                     .fundId(fund.getId())
                     .value(new BigDecimal(detail.getLjjz()))
-                    .valueDate(TimeUtil.string2Date(detail.getFbrq()))
+                    .valueDate(TimeUtil.string2JavSqlDate(detail.getFbrq()))
                     .build();
             fundValueMapWithDateKey.put(detail.getFbrq(), fundValue);
         });

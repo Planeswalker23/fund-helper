@@ -31,6 +31,8 @@ public class RestTemplateUtil {
             params.forEach((key, value) -> stringBuilder.append(key).append("=").append(value).append("&"));
             url = stringBuilder.toString();
         }
-        return REST_CLIENT.getForObject(url, clazz, params);
+        T result = REST_CLIENT.getForObject(url, clazz, params);
+        log.info("Do Get request of {}, result is null: {}", url, result == null);
+        return result;
     }
 }

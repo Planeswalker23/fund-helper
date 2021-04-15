@@ -42,7 +42,7 @@ public enum FundTypeDict {
     }
 
     /**
-     * 判断中文类型名称在不在字段中，默认返回混合型
+     * 判断中文类型名称在不在字段中，不存在返回 null
      *
      * @param typeName 类型名称
      * @return FundTypeDict
@@ -53,6 +53,6 @@ public enum FundTypeDict {
                 return type;
             }
         }
-        return FundTypeDict.MIXED;
+        return null;
     }
 }
