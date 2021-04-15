@@ -3,7 +3,7 @@ package io.walkers.planes.fundhelper.service;
 import io.walkers.planes.fundhelper.dao.FundDao;
 import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.model.FundValueModel;
-import io.walkers.planes.fundhelper.listener.FetchFundValueEvent;
+import io.walkers.planes.fundhelper.listener.DownloadFundValueEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class WriteFundService {
     @Resource
     private FundDao fundDao;
     @Resource
-    private CrawlerService crawlerService;
+    private DownloadDataService downloadDataService;
     @Resource
     private ApplicationContext applicationContext;
     @Resource
@@ -46,13 +46,13 @@ public class WriteFundService {
             return fund;
         }
         // 获取基金数据
-        fund = crawlerService.getFundByCode(code);
+        fund = downloadDataService.fetchFundByCode(code);
         // 持久化基金信息
         fundDao.insertSelective(fund);
         log.info("Fund data create successfully, code is {}", code);
 
         // 发布事件：获取基金净值
-        applicationContext.publishEvent(new FetchFundValueEvent(fund));
+        applicationContext.publishEvent(new DownloadFundValueEvent(this, fund));
         return fund;
     }
 

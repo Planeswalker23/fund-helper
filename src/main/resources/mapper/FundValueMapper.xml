@@ -8,10 +8,17 @@
         <foreach collection="list" index="index" item="item" separator=",">
             (#{item.fundId},#{item.valueDate},#{item.value},now(),now(),
             <choose>
-                <when test="item.increaseRate==null">0.00</when>
+                <when test="item.increaseRate==null">null</when>
                 <otherwise>#{item.increaseRate}</otherwise>
             </choose>
             )
         </foreach>
     </insert>
+
+    <!--  数据库连接需要支持批量操作: &allowMultiQueries=true  -->
+    <update id="batchUpdateIncreaseRateById" parameterType="java.util.List">
+        <foreach collection="list" index="index" item="item" open="" close="" separator=";">
+            update fund_value set increase_rate=#{item.increaseRate} where id=#{item.id}
+        </foreach>
+    </update>
 </mapper>

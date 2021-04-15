@@ -15,6 +15,10 @@ A widget for helping investors manage funds.
     - [x] 搜索功能
     - [x] 自选基金(新增，取消)
     - [ ] 基金业绩走势折线图
+- [x] 基金净值每日拉取当日最新值(基于 @Schedule 实现)
+- [x] 补偿接口
+    - [x] 拉取基金净值
+    - [x] 计算日增长率为 null 的基金净值
 
 ## 优化项:
 ### 通用向

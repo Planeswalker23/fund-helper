@@ -3,7 +3,8 @@ package io.walkers.planes.fundhelper.controller;
 import io.walkers.planes.fundhelper.dao.FundDao;
 import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.pojo.Response;
-import io.walkers.planes.fundhelper.listener.FetchFundValueEvent;
+import io.walkers.planes.fundhelper.listener.DownloadFundValueEvent;
+import io.walkers.planes.fundhelper.listener.RecalculateNullIncreaseRateEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,14 +31,29 @@ public class CompensationController {
     private ApplicationContext applicationContext;
 
     /**
-     * 计算基金净值日增长率
+     * 拉取基金净值
+     *
+     * @param code 基金代码
+     * @param page 页码(可选参数)
+     * @return Response
+     */
+    @PostMapping("/downloadFundValue")
+    public Response<String> downloadFundValue(@RequestParam("code") @NotBlank String code, Integer page) {
+        FundModel fundModel = fundDao.selectByCode(code);
+        applicationContext.publishEvent(new DownloadFundValueEvent(this, fundModel, page));
+        return Response.success();
+    }
+
+    /**
+     * 重新计算日增长率为 null 的基金净值
+     *
      * @param code 基金代码
      * @return Response
      */
-    @PostMapping("/increaseRate")
-    public Response<String> recalculateIncreaseRate(@RequestParam("code") @NotBlank String code) {
+    @PostMapping("/recalculateNullIncreaseRate")
+    public Response<String> recalculateNullIncreaseRate(@RequestParam("code") @NotBlank String code) {
         FundModel fundModel = fundDao.selectByCode(code);
-        applicationContext.publishEvent(new FetchFundValueEvent(fundModel));
+        applicationContext.publishEvent(new RecalculateNullIncreaseRateEvent(this, fundModel));
         return Response.success();
     }
 }

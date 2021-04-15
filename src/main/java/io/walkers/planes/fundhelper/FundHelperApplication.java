@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * SpringBoot starter
@@ -12,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @author planeswalker23
  */
 @EnableAsync
+@EnableScheduling
 @SpringBootApplication
 public class FundHelperApplication {
 

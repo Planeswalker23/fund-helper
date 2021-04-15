@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 自选基金与用户关联表
  *
- * @author 范逸东
+ * @author planeswalker23
  */
 @Data
 @Builder

@@ -49,7 +49,7 @@ public enum FundTypeDict {
      */
     public static FundTypeDict containsValue(String typeName) {
         for (FundTypeDict type : FundTypeDict.values()) {
-            if (type.name().equals(typeName)) {
+            if (type.getLabel().equals(typeName)) {
                 return type;
             }
         }
