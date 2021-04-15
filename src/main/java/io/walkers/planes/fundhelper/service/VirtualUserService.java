@@ -32,11 +32,11 @@ public class VirtualUserService {
             userResult = virtualUser;
         }
         if (!userResult.getPassword().equals(virtualUser.getPassword())) {
-            throw new RuntimeException("Wrong password");
+            throw new RuntimeException("密码错误");
         }
         // 基于 session 保存登录状态
         SessionUtil.updateAttribute("loginUser", userResult);
-        log.info("User {} login successfully", userResult.getAccount());
+        log.info("用户{{}}登录成功", userResult.getAccount());
         return userResult;
     }
 

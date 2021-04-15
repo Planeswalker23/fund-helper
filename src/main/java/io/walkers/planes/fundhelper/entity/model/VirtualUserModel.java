@@ -25,12 +25,12 @@ public class VirtualUserModel implements Serializable {
     /**
      * 账户
      */
-    @NotBlank(message = "Account can not be empty")
+    @NotBlank(message = "账户不能为空")
     private String account;
     /**
      * 密码
      */
-    @NotBlank(message = "Password can not be empty")
+    @NotBlank(message = "密码不能为空")
     private String password;
     /**
      * 创建时间

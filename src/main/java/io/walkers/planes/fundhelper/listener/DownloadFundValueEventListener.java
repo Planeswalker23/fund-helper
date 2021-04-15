@@ -35,7 +35,7 @@ public class DownloadFundValueEventListener implements ApplicationListener<Downl
     public void onApplicationEvent(DownloadFundValueEvent event) {
         FundModel fund = event.getFund();
         if (fund == null) {
-            log.warn("End with fetch fund value event, caused by empty parameter of fund");
+            log.warn("获取基金净值事件结束，原因：事件入参为空");
             return;
         }
         // 获取基金净值
@@ -52,6 +52,6 @@ public class DownloadFundValueEventListener implements ApplicationListener<Downl
         // 持久化数据
         fundValueDao.insertBatchWithoutIncreaseRate(fundValues);
 
-        log.info("End with fetch fund value event, fund value data create successfully, fund code: {}", fund.getCode());
+        log.info("获取基金净值事件结束，代码为{}的基金净值创建成功", fund.getCode());
     }
 }

@@ -28,7 +28,7 @@ public class FundHelperExceptionHandler {
      */
     @ExceptionHandler(value = RuntimeException.class)
     public Response<String> windfallExceptionHandler(RuntimeException e) {
-        log.error(e.getMessage(), e);
+        log.warn(e.getMessage());
         return Response.failed(e.getMessage());
     }
 
@@ -41,7 +41,7 @@ public class FundHelperExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Response<String> allExceptionHandler(Exception e) {
         log.error(e.getMessage(), e);
-        return Response.failed("System error, please contact the administrator");
+        return Response.failed("系统异常，请联系管理员");
     }
 
     /**
@@ -58,7 +58,7 @@ public class FundHelperExceptionHandler {
         List<String> defaultMessages = Lists.transform(bindingResult.getFieldErrors(), FieldError::getDefaultMessage);
         errorMessage.append(String.join(", ", defaultMessages));
         // 参数校验异常
-        log.error(errorMessage.toString());
+        log.warn(errorMessage.toString());
         return Response.failed(errorMessage.toString());
     }
 }

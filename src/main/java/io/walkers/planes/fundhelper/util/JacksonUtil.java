@@ -36,7 +36,7 @@ public class JacksonUtil {
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             log.error(e.getMessage(), e);
-            throw new RuntimeException("Transform json to string failed, source object is: " + object);
+            throw new RuntimeException("JSON序列化失败，源对象数据：" + object);
         }
     }
 
@@ -53,7 +53,7 @@ public class JacksonUtil {
             return objectMapper.readValue(json, clazz);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
-            throw new RuntimeException("Transform json from String to " + clazz + " failed, source string is: " + json);
+            throw new RuntimeException(String.format("JSON序列化为{%s}类型失败，源对象数据{%s}", clazz.getName(), json));
         }
     }
 
@@ -71,7 +71,7 @@ public class JacksonUtil {
             return objectMapper.readValue(json, javaType);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
-            throw new RuntimeException("Transform json from String to array of " + clazz + " failed, source string is: " + json);
+            throw new RuntimeException(String.format("JSON序列化为{%s}类型数组失败，源对象数据{%s}", clazz.getName(), json));
         }
     }
 

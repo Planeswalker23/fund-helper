@@ -32,7 +32,7 @@ public class FundValueSchedule {
      */
     @Scheduled(cron = "0 0 0 */1 * ?")
     public void dailyAddFundValue() {
-        log.info("Scheduled of Daily job started, publish event of DownloadFundValueEvent.");
+        log.info("开始执行{获取最新基金净值}的定时任务，发布获取基金净值事件");
         List<FundModel> funds = fundDao.selectAll();
         if (CollectionUtils.isEmpty(funds)) {
             return;
@@ -45,7 +45,7 @@ public class FundValueSchedule {
      */
     @Scheduled(cron = "0 1 0 */1 * ?")
     public void dailyUpdateNullIncreaseRate() {
-        log.info("Scheduled of Daily job started, publish event of RecalculateNullIncreaseRateEvent.");
+        log.info("开始执行{更新日增长率}的定时任务，发布补偿计算日增长率事件");
         List<FundModel> funds = fundDao.selectAll();
         if (CollectionUtils.isEmpty(funds)) {
             return;

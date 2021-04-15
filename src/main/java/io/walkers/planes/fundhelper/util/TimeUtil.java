@@ -16,7 +16,7 @@ import java.time.ZoneOffset;
 @Slf4j
 public class TimeUtil {
 
-    private static ThreadLocal<DateFormat> SQL_DATE_FORMAT_THREAD_LOCAL = ThreadLocal.withInitial(() -> new SimpleDateFormat(TimeFormatDict.FORMAT_YYYY_MM_DD));
+    private static final ThreadLocal<DateFormat> SQL_DATE_FORMAT_THREAD_LOCAL = ThreadLocal.withInitial(() -> new SimpleDateFormat(TimeFormatDict.FORMAT_YYYY_MM_DD));
 
     /**
      * 时间格式化 String to {@link java.sql.Date}
@@ -39,7 +39,8 @@ public class TimeUtil {
             time = SQL_DATE_FORMAT_THREAD_LOCAL.get().parse(timeString.substring(0, 10));
         } catch (Exception e) {
             log.error("Date format failed, source parameter is: {}, caused by: ", timeString, e);
-            throw new RuntimeException("Date format failed");
+            log.error("日期格式化失败，源数据为：{}，错误原因：{}", timeString, e);
+            throw new RuntimeException("日期格式化失败");
         }
         return time;
     }

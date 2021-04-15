@@ -32,8 +32,8 @@ public class OptionalFundRelationService {
         // 校验该基金是否已加入自选
         OptionalFundRelationModel alreadyAdd = optionalFundRelationDao.selectOne(fund.getId(), virtualUser.getId());
         if (alreadyAdd != null) {
-            log.warn("Virtual user id={}, account={} has already put fund code={} name={} into optional", virtualUser.getId(), virtualUser.getAccount(), fund.getCode(), fund.getName());
-            throw new RuntimeException("Fund code " + fund.getCode() + " has already put into optional fund list.");
+            log.warn("虚拟用户{{}}已将基金{{}}加入自选", virtualUser.getAccount(), fund.getCode());
+            throw new RuntimeException(String.format("基金{%s}已经加入自选", fund.getCode()));
         }
 
         OptionalFundRelationModel optionalFundRelation = OptionalFundRelationModel.builder()

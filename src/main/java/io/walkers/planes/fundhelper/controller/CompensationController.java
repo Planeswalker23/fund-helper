@@ -38,7 +38,7 @@ public class CompensationController {
      * @return Response
      */
     @PostMapping("/downloadFundValue")
-    public Response<String> downloadFundValue(@RequestParam("code") @NotBlank String code, Integer page) {
+    public Response<String> downloadFundValue(@RequestParam("code") @NotBlank(message = "基金代码不能为空") String code, Integer page) {
         FundModel fundModel = fundDao.selectByCode(code);
         applicationContext.publishEvent(new DownloadFundValueEvent(this, fundModel, page));
         return Response.success();
@@ -51,7 +51,7 @@ public class CompensationController {
      * @return Response
      */
     @PostMapping("/recalculateNullIncreaseRate")
-    public Response<String> recalculateNullIncreaseRate(@RequestParam("code") @NotBlank String code) {
+    public Response<String> recalculateNullIncreaseRate(@RequestParam("code") @NotBlank(message = "基金代码不能为空") String code) {
         FundModel fundModel = fundDao.selectByCode(code);
         applicationContext.publishEvent(new RecalculateNullIncreaseRateEvent(this, fundModel));
         return Response.success();

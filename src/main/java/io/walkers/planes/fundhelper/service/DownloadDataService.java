@@ -46,7 +46,7 @@ public class DownloadDataService {
 
     public FundModel fetchFundByCode(String code) {
         if (!StringUtils.hasText(code)) {
-            throw new RuntimeException("Fetch fund info error, caused by empty fund code");
+            throw new RuntimeException("获取基金详情失败，原因：基金代码入参为空");
         }
         String path = fundDataSource.getDetailPathPrefix() + code + fundDataSource.getDetailPathSuffix();
         EastMoneyResult result = new EastMoneyResult();
@@ -67,13 +67,10 @@ public class DownloadDataService {
             Node establishDateNode = infoNode.childNode(1).childNode(0).childNode(1);
             result.setEstablishDate(establishDateNode.outerHtml().replace("：", ""));
         } catch (Exception e) {
-            log.error("Fetch url {} error, following is reason: {}", path, e.getMessage(), e);
-            throw new RuntimeException(String.format("Download fund info error, probably this code {%s} is wrong", code));
+            log.error("获取基金详情失败，路由为：{}，原因： {}", path, e.getMessage(), e);
+            throw new RuntimeException(String.format("获取基金详情失败，请检查基金代码{%s}是否正确", code));
         }
         FundTypeDict fundType = FundTypeDict.containsValue(result.getType());
-        if (fundType == null) {
-            throw new RuntimeException(String.format("Fund type {%s} is not exist, probably this code {%s} is wrong", result.getType(), code));
-        }
         return FundModel.builder()
                 .name(result.getName())
                 .code(code)

@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 计算日增长率为 null 的基金净值事件监听器
+ * 补偿计算日增长率事件监听器
  *
  * @author planeswalker23
  */
@@ -33,7 +33,7 @@ public class RecalculateNullIncreaseRateEventListener implements ApplicationList
     public void onApplicationEvent(RecalculateNullIncreaseRateEvent event) {
         FundModel fund = event.getFund();
         if (fund == null) {
-            log.warn("End with recalculate null increaseRate event, caused by empty parameter of fund");
+            log.warn("补偿计算日增长率事件结束，原因：事件入参为空");
             return;
         }
         // 查询日增长率为空的 FundValueModel
@@ -47,6 +47,6 @@ public class RecalculateNullIncreaseRateEventListener implements ApplicationList
             });
         }
         fundValueDao.batchUpdateIncreaseRateById(nullIncreaseRateFundValues);
-        log.info("End with recalculate null increaseRate event, increaseRate of fund value data recalculate successfully, fund code: {}", fund.getCode());
+        log.info("补偿计算日增长率事件结束，代码为{}的日增长率计算成功", fund.getCode());
     }
 }

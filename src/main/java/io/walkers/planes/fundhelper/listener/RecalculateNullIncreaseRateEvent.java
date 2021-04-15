@@ -4,7 +4,8 @@ import io.walkers.planes.fundhelper.entity.model.FundModel;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * 计算日增长率为 null 的基金净值事件
+ * 补偿计算日增长率事件
+ * 计算为 null 的基金净值
  *
  * @author planeswalker23
  */

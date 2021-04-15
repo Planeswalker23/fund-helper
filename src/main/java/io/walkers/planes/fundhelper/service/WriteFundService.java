@@ -42,14 +42,14 @@ public class WriteFundService {
         // 根据 code 查询基金实体
         FundModel fund = fundDao.selectByCode(code);
         if (fund != null) {
-            log.info("Fund data of code {} already exist", code);
+            log.info("基金{{}}数据已存在", code);
             return fund;
         }
         // 获取基金数据
         fund = downloadDataService.fetchFundByCode(code);
         // 持久化基金信息
         fundDao.insertSelective(fund);
-        log.info("Fund data create successfully, code is {}", code);
+        log.info("基金{{}}数据创建成功", code);
 
         // 发布事件：获取基金净值
         applicationContext.publishEvent(new DownloadFundValueEvent(this, fund));

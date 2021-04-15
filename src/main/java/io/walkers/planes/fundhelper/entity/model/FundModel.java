@@ -1,5 +1,6 @@
 package io.walkers.planes.fundhelper.entity.model;
 
+import io.walkers.planes.fundhelper.entity.dict.FundTypeDict;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,7 +42,7 @@ public class FundModel implements Serializable {
     /**
      * 基金类型
      *
-     * @see io.walkers.planes.fundhelper.entity.dict.FundTypeDict
+     * @see FundTypeDict
      */
     private String type;
     /**

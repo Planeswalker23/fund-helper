@@ -34,7 +34,7 @@ public class SessionUtil {
     public static VirtualUserModel getLoginUser() {
         VirtualUserModel user = (VirtualUserModel) getSession().getAttribute("loginUser");
         if (user == null) {
-            throw new RuntimeException("Not login");
+            throw new RuntimeException("用户未登录");
         }
         return user;
     }

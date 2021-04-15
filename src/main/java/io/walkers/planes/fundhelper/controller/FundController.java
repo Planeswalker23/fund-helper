@@ -39,7 +39,7 @@ public class FundController {
      * @return Response
      */
     @PostMapping("/create")
-    public Response<FundModel> createFund(@RequestParam("code") @NotBlank String code) {
+    public Response<FundModel> createFund(@RequestParam("code") @NotBlank(message = "基金代码不能为空") String code) {
         return Response.success(writeFundService.createFundByCode(code));
     }
 
@@ -50,7 +50,7 @@ public class FundController {
      * @return Response
      */
     @PostMapping("/addOptionalFund")
-    public Response<FundModel> addOptionalFund(@RequestParam("code") @NotBlank String code) {
+    public Response<FundModel> addOptionalFund(@RequestParam("code") @NotBlank(message = "基金代码不能为空") String code) {
         return Response.success(writeFundService.addOptionalFund(code));
     }
 
@@ -61,7 +61,7 @@ public class FundController {
      * @return Response
      */
     @PostMapping("/batchAddOptionalFund")
-    public Response<String> batchAddOptionalFund(@RequestParam("codes") @NotBlank String codes) {
+    public Response<String> batchAddOptionalFund(@RequestParam("codes") @NotBlank(message = "基金代码列表不能为空") String codes) {
         writeFundService.batchAddOptionalFund(codes);
         return Response.success();
     }
@@ -73,7 +73,7 @@ public class FundController {
      * @return Response
      */
     @PostMapping("/cancelOptionalFund")
-    public Response<String> cancelOptionalFund(@RequestParam("fundId") @NotNull Long fundId) {
+    public Response<String> cancelOptionalFund(@RequestParam("fundId") @NotNull(message = "基金ID不能为空") Long fundId) {
         optionalFundRelationService.cancelOptionalFund(fundId);
         return Response.success();
     }
@@ -86,7 +86,8 @@ public class FundController {
      * @return Response
      */
     @GetMapping("/queryValueByDateType")
-    public Response<Map<String, List<Object>>> queryValueByDateType(@RequestParam("fundId") @NotNull Long fundId, @RequestParam("dateType") @NotBlank String dateType) {
+    public Response<Map<String, List<Object>>> queryValueByDateType(@RequestParam("fundId") @NotNull(message = "基金ID不能为空") Long fundId
+            , @RequestParam("dateType") @NotBlank(message = "日期类型不能为空") String dateType) {
         return Response.success(readFundService.queryValueByDateType(fundId, dateType));
     }
 }
