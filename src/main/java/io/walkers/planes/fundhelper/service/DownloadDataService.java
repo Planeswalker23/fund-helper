@@ -3,6 +3,7 @@ package io.walkers.planes.fundhelper.service;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.walkers.planes.fundhelper.config.FundDataSource;
+import io.walkers.planes.fundhelper.config.FundHelperException;
 import io.walkers.planes.fundhelper.dao.FundValueDao;
 import io.walkers.planes.fundhelper.entity.dict.FundTypeDict;
 import io.walkers.planes.fundhelper.entity.dict.MessageDict;
@@ -65,7 +66,7 @@ public class DownloadDataService {
             result.setEstablishDate(establishDateNode.outerHtml().replace("：", ""));
         } catch (Exception e) {
             log.error("获取基金详情失败，路由为：{}，原因： {}", path, e.getMessage(), e);
-            throw new RuntimeException(String.format(MessageDict.DOWNLOAD_FUND_VALUE_FAILED, code));
+            throw new FundHelperException(String.format(MessageDict.DOWNLOAD_FUND_VALUE_FAILED, code));
         }
         FundTypeDict fundType = FundTypeDict.containsValue(result.getType());
         return FundModel.builder()

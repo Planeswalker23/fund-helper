@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.walkers.planes.fundhelper.config.FundHelperException;
 import io.walkers.planes.fundhelper.entity.dict.MessageDict;
 import io.walkers.planes.fundhelper.entity.dict.TimeFormatDict;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class JacksonUtil {
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             log.error("JSON序列化失败，目标类型 {}，源数据 {}，错误原因：{}", String.class.getName(), object, e.getMessage(), e);
-            throw new RuntimeException(MessageDict.JSON_FORMAT_FAILED);
+            throw new FundHelperException(MessageDict.JSON_FORMAT_FAILED);
         }
     }
 
@@ -54,7 +55,7 @@ public class JacksonUtil {
             return objectMapper.readValue(json, clazz);
         } catch (IOException e) {
             log.error("JSON序列化失败，目标类型 {}，源数据 {}，错误原因：{}", clazz.getName(), json, e.getMessage(), e);
-            throw new RuntimeException(MessageDict.JSON_FORMAT_FAILED);
+            throw new FundHelperException(MessageDict.JSON_FORMAT_FAILED);
         }
     }
 
@@ -72,7 +73,7 @@ public class JacksonUtil {
             return objectMapper.readValue(json, javaType);
         } catch (IOException e) {
             log.error("JSON序列化失败，目标类型 {} 数组，源数据 {}，错误原因：{}", clazz.getName(), json, e.getMessage(), e);
-            throw new RuntimeException(MessageDict.JSON_FORMAT_FAILED);
+            throw new FundHelperException(MessageDict.JSON_FORMAT_FAILED);
         }
     }
 

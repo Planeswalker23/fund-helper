@@ -1,5 +1,7 @@
 package io.walkers.planes.fundhelper.entity.dict;
 
+import io.walkers.planes.fundhelper.config.FundHelperException;
+
 /**
  * Dict of Fund Type
  *
@@ -53,6 +55,6 @@ public enum FundTypeDict {
                 return type;
             }
         }
-        throw new RuntimeException(String.format(MessageDict.FUND_TYPE_NOT_SUPPORT, typeName));
+        throw new FundHelperException(String.format(MessageDict.FUND_TYPE_NOT_SUPPORT, typeName));
     }
 }

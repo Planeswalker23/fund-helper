@@ -1,5 +1,6 @@
 package io.walkers.planes.fundhelper.service;
 
+import io.walkers.planes.fundhelper.config.FundHelperException;
 import io.walkers.planes.fundhelper.dao.VirtualUserDao;
 import io.walkers.planes.fundhelper.entity.dict.MessageDict;
 import io.walkers.planes.fundhelper.entity.model.VirtualUserModel;
@@ -33,7 +34,7 @@ public class VirtualUserService {
             userResult = virtualUser;
         }
         if (!userResult.getPassword().equals(virtualUser.getPassword())) {
-            throw new RuntimeException(MessageDict.WRONG_PASSWORD);
+            throw new FundHelperException(MessageDict.WRONG_PASSWORD);
         }
         // 基于 session 保存登录状态
         SessionUtil.updateAttribute("loginUser", userResult);

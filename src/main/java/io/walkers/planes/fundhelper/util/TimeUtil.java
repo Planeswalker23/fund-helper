@@ -1,5 +1,6 @@
 package io.walkers.planes.fundhelper.util;
 
+import io.walkers.planes.fundhelper.config.FundHelperException;
 import io.walkers.planes.fundhelper.entity.dict.DateTypeDict;
 import io.walkers.planes.fundhelper.entity.dict.MessageDict;
 import io.walkers.planes.fundhelper.entity.dict.TimeFormatDict;
@@ -40,7 +41,7 @@ public class TimeUtil {
             time = SQL_DATE_FORMAT_THREAD_LOCAL.get().parse(timeString.substring(0, 10));
         } catch (Exception e) {
             log.error("日期格式化失败，源数据为：{}，错误原因：{}", timeString, e);
-            throw new RuntimeException(MessageDict.DATE_FORMAT_FAILED);
+            throw new FundHelperException(MessageDict.DATE_FORMAT_FAILED);
         }
         return time;
     }

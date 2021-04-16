@@ -22,13 +22,13 @@ import java.util.List;
 public class FundHelperExceptionHandler {
 
     /**
-     * 拦截捕捉业务性自定义异常 {@link RuntimeException}
+     * 拦截捕捉业务性自定义异常 {@link FundHelperException}
      *
      * @param e 业务性自定义异常
      * @return {@link Response}
      */
-    @ExceptionHandler(value = RuntimeException.class)
-    public Response<String> windfallExceptionHandler(RuntimeException e) {
+    @ExceptionHandler(value = FundHelperException.class)
+    public Response<String> windfallExceptionHandler(FundHelperException e) {
         log.warn(e.getMessage());
         return Response.failed(e.getMessage());
     }

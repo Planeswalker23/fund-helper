@@ -27,7 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor, EnvironmentAware {
                 forTest();
             }
             SessionUtil.getLoginUser();
-        } catch (RuntimeException e) {
+        } catch (FundHelperException e) {
             log.error("访问{{}}页面出错，原因是：{}", request.getServletPath(), e.getMessage());
             response.sendRedirect(request.getContextPath() + "/");
             return false;
