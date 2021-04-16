@@ -1,6 +1,7 @@
 package io.walkers.planes.fundhelper.util;
 
 import io.walkers.planes.fundhelper.entity.dict.DateTypeDict;
+import io.walkers.planes.fundhelper.entity.dict.MessageDict;
 import io.walkers.planes.fundhelper.entity.dict.TimeFormatDict;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,9 +39,8 @@ public class TimeUtil {
             // 取字符串前10位
             time = SQL_DATE_FORMAT_THREAD_LOCAL.get().parse(timeString.substring(0, 10));
         } catch (Exception e) {
-            log.error("Date format failed, source parameter is: {}, caused by: ", timeString, e);
             log.error("日期格式化失败，源数据为：{}，错误原因：{}", timeString, e);
-            throw new RuntimeException("日期格式化失败");
+            throw new RuntimeException(MessageDict.DATE_FORMAT_FAILED);
         }
         return time;
     }

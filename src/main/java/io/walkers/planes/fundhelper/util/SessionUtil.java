@@ -1,5 +1,6 @@
 package io.walkers.planes.fundhelper.util;
 
+import io.walkers.planes.fundhelper.entity.dict.MessageDict;
 import io.walkers.planes.fundhelper.entity.model.VirtualUserModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -34,7 +35,7 @@ public class SessionUtil {
     public static VirtualUserModel getLoginUser() {
         VirtualUserModel user = (VirtualUserModel) getSession().getAttribute("loginUser");
         if (user == null) {
-            throw new RuntimeException("用户未登录");
+            throw new RuntimeException(MessageDict.NOT_LOGIN);
         }
         return user;
     }

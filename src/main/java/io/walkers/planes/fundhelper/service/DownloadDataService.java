@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import io.walkers.planes.fundhelper.config.FundDataSource;
 import io.walkers.planes.fundhelper.dao.FundValueDao;
 import io.walkers.planes.fundhelper.entity.dict.FundTypeDict;
+import io.walkers.planes.fundhelper.entity.dict.MessageDict;
 import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.model.FundValueModel;
 import io.walkers.planes.fundhelper.entity.pojo.EastMoneyResult;
@@ -17,7 +18,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
@@ -45,9 +45,6 @@ public class DownloadDataService {
     private FundValueDao fundValueDao;
 
     public FundModel fetchFundByCode(String code) {
-        if (!StringUtils.hasText(code)) {
-            throw new RuntimeException("获取基金详情失败，原因：基金代码入参为空");
-        }
         String path = fundDataSource.getDetailPathPrefix() + code + fundDataSource.getDetailPathSuffix();
         EastMoneyResult result = new EastMoneyResult();
         try {
@@ -68,7 +65,7 @@ public class DownloadDataService {
             result.setEstablishDate(establishDateNode.outerHtml().replace("：", ""));
         } catch (Exception e) {
             log.error("获取基金详情失败，路由为：{}，原因： {}", path, e.getMessage(), e);
-            throw new RuntimeException(String.format("获取基金详情失败，请检查基金代码{%s}是否正确", code));
+            throw new RuntimeException(String.format(MessageDict.DOWNLOAD_FUND_VALUE_FAILED, code));
         }
         FundTypeDict fundType = FundTypeDict.containsValue(result.getType());
         return FundModel.builder()

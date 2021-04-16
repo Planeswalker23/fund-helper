@@ -32,7 +32,7 @@ public class RestTemplateUtil {
             url = stringBuilder.toString();
         }
         T result = REST_CLIENT.getForObject(url, clazz, params);
-        log.info("执行 Get 请求成功，目标路由：{}, 结果是否为 null: {}", url, result == null);
+        log.info("执行 Get 请求成功，目标路由：{}, 结果是否为 null：{}", url, result == null);
         return result;
     }
 }

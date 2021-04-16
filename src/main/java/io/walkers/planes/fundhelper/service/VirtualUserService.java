@@ -1,6 +1,7 @@
 package io.walkers.planes.fundhelper.service;
 
 import io.walkers.planes.fundhelper.dao.VirtualUserDao;
+import io.walkers.planes.fundhelper.entity.dict.MessageDict;
 import io.walkers.planes.fundhelper.entity.model.VirtualUserModel;
 import io.walkers.planes.fundhelper.util.SessionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class VirtualUserService {
             userResult = virtualUser;
         }
         if (!userResult.getPassword().equals(virtualUser.getPassword())) {
-            throw new RuntimeException("密码错误");
+            throw new RuntimeException(MessageDict.WRONG_PASSWORD);
         }
         // 基于 session 保存登录状态
         SessionUtil.updateAttribute("loginUser", userResult);

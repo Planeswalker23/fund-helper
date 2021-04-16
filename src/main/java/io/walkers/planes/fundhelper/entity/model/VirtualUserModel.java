@@ -1,5 +1,6 @@
 package io.walkers.planes.fundhelper.entity.model;
 
+import io.walkers.planes.fundhelper.entity.dict.MessageDict;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,12 +26,12 @@ public class VirtualUserModel implements Serializable {
     /**
      * 账户
      */
-    @NotBlank(message = "账户不能为空")
+    @NotBlank(message = MessageDict.ACCOUNT_CAN_NOT_BE_NULL)
     private String account;
     /**
      * 密码
      */
-    @NotBlank(message = "密码不能为空")
+    @NotBlank(message = MessageDict.PASSWORD_CAN_NOT_BE_NULL)
     private String password;
     /**
      * 创建时间

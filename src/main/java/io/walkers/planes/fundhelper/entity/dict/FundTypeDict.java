@@ -53,6 +53,6 @@ public enum FundTypeDict {
                 return type;
             }
         }
-        throw new RuntimeException(String.format("基金类型 {%s} 不支持, 请检查基金代码是否正确", typeName));
+        throw new RuntimeException(String.format(MessageDict.FUND_TYPE_NOT_SUPPORT, typeName));
     }
 }

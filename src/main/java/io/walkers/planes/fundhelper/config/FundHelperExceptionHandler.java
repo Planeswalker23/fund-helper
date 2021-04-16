@@ -1,6 +1,7 @@
 package io.walkers.planes.fundhelper.config;
 
 import com.google.common.collect.Lists;
+import io.walkers.planes.fundhelper.entity.dict.MessageDict;
 import io.walkers.planes.fundhelper.entity.pojo.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
@@ -41,7 +42,7 @@ public class FundHelperExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Response<String> allExceptionHandler(Exception e) {
         log.error(e.getMessage(), e);
-        return Response.failed("系统异常，请联系管理员");
+        return Response.failed(MessageDict.SYSTEM_ERROR);
     }
 
     /**
@@ -54,7 +55,7 @@ public class FundHelperExceptionHandler {
     public Response<String> bindExceptionHandler(BindException e) {
         BindingResult bindingResult = e.getBindingResult();
         // 拼接校验异常信息
-        StringBuilder errorMessage = new StringBuilder("Parameter validate failed: ");
+        StringBuilder errorMessage = new StringBuilder(MessageDict.PARAMETER_VALIDATOR_FAILED);
         List<String> defaultMessages = Lists.transform(bindingResult.getFieldErrors(), FieldError::getDefaultMessage);
         errorMessage.append(String.join(", ", defaultMessages));
         // 参数校验异常

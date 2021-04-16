@@ -1,6 +1,7 @@
 package io.walkers.planes.fundhelper.service;
 
 import io.walkers.planes.fundhelper.dao.OptionalFundRelationDao;
+import io.walkers.planes.fundhelper.entity.dict.MessageDict;
 import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.model.OptionalFundRelationModel;
 import io.walkers.planes.fundhelper.entity.model.VirtualUserModel;
@@ -33,7 +34,7 @@ public class OptionalFundRelationService {
         OptionalFundRelationModel alreadyAdd = optionalFundRelationDao.selectOne(fund.getId(), virtualUser.getId());
         if (alreadyAdd != null) {
             log.warn("虚拟用户{{}}已将基金{{}}加入自选", virtualUser.getAccount(), fund.getCode());
-            throw new RuntimeException(String.format("基金{%s}已经加入自选", fund.getCode()));
+            throw new RuntimeException(String.format(MessageDict.FUND_ALREADY_EXIST_IN_OPTIONAL, fund.getCode()));
         }
 
         OptionalFundRelationModel optionalFundRelation = OptionalFundRelationModel.builder()
