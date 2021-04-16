@@ -1,5 +1,6 @@
 package io.walkers.planes.fundhelper.entity.pojo;
 
+import io.walkers.planes.fundhelper.entity.dict.MessageDict;
 import io.walkers.planes.fundhelper.util.JacksonUtil;
 import lombok.Data;
 
@@ -10,7 +11,6 @@ import lombok.Data;
  */
 @Data
 public class Response<T> {
-    private static final String SUCCESS = "Success";
     /**
      * 返回结果是否成功
      */
@@ -27,14 +27,14 @@ public class Response<T> {
     public static Response<String> success() {
         Response<String> res = new Response<>();
         res.setSuccess(true);
-        res.setMessage(SUCCESS);
+        res.setMessage(MessageDict.SUCCESS);
         return res;
     }
 
     public static <T> Response<T> success(T data) {
         Response<T> res = new Response<T>();
         res.setSuccess(true);
-        res.setMessage(SUCCESS);
+        res.setMessage(MessageDict.SUCCESS);
         res.setData(data);
         return res;
     }

@@ -7,6 +7,7 @@ package io.walkers.planes.fundhelper.entity.dict;
  */
 public interface MessageDict {
 
+    String SUCCESS = "成功";
     String SYSTEM_ERROR = "系统异常，请联系管理员";
     String PARAMETER_VALIDATOR_FAILED = "参数校验失败：";
     String FUND_TYPE_NOT_SUPPORT = "基金类型 {%s} 不支持, 请检查基金代码是否正确";
