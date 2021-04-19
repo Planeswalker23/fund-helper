@@ -75,6 +75,9 @@
                           <div class="btn-group">
                             <button class="btn btn-w-xm btn-danger" th:onclick="cancelOptionalFund([[${entity.id}]]);">取消</button>
                           </div>
+                          <div class="btn-group">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fundPerformanceChart" th:data-whatever="${entity.id}">查看</button>
+                          </div>
                         </td>
                       </tr>
                     </tbody>
@@ -128,16 +131,22 @@
     </div>
 
     <!-- 基金业绩走势折线图模态框 -->
-<!--    <div id="fundPerformanceChart" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addOptionalFundLabel">-->
-<!--      <div class="card">-->
-<!--        <div class="card-header">-->
-<!--          <h4>交易历史记录</h4>-->
-<!--        </div>-->
-<!--        <div class="card-body">-->
-<!--          <canvas class="js-chartjs-lines"></canvas>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <div id="fundPerformanceChart" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="fundPerformanceChartLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="card">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="fundPerformanceChartLabel">交易历史记录</h4>
+            </div>
+            <div class="card-body">
+              <canvas class="js-chartjs-lines"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -149,5 +158,54 @@
 <script type="text/javascript" src="js/myScript.js"></script>
 <!--标签插件-->
 <script src="js/jquery-tags-input/jquery.tagsinput.min.js"></script>
+<!--图表插件-->
+<script type="text/javascript" src="js/Chart.js"></script>
+<script type="text/javascript">
+  let entityId = undefined;
+  let date = undefined;
+  let value = undefined;
+  let dashChartLinesData = undefined;
+  let myLineChart = undefined;
+  // 点击事件触发
+  $('#fundPerformanceChart').on('show.bs.modal', function (event) {
+    entityId = $(event.relatedTarget).data('whatever');
+    $.ajax({
+      type: "GET",
+      url: "/fund/queryValueByDateType",
+      data: {
+        fundId: entityId,
+        // todo: dateType 应改为可选
+        dateType: "MONTH"
+      },
+      dataType: "json",
+      success: function (data) {
+        if (data.success === true) {
+          date = data.data.date
+          value = data.data.value
+          dashChartLinesData = {
+            labels: date,
+            datasets: [
+              {
+                label: '单位净值',
+                data: value,
+                backgroundColor: "#36a2eb",
+                // 曲线宽度
+                borderWidth: 3,
+                borderColor: "#68bcf3",
+                // 是否展示为面积图
+                fill: false,
+                // 原点直径
+                pointRadius: 2,
+                lineTension: 0.5
+              }
+            ]
+          };
+          myLineChart = new Chart(jQuery('.js-chartjs-lines' )[0].getContext('2d'), {type: 'line', data: dashChartLinesData});
+        }
+      }
+    });
+
+  })
+</script>
 </body>
 </html>
