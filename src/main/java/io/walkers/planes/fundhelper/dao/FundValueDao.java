@@ -20,7 +20,7 @@ public interface FundValueDao {
      *
      * @param list 待插入数据
      */
-    void insertBatchWithoutIncreaseRate(@Param("list") List<FundValueModel> list);
+    void batchInsert(@Param("list") List<FundValueModel> list);
 
     /**
      * 根据 fundId 查询所有净值

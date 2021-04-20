@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.walkers.planes.fundhelper.dao.FundValueDao">
 
-    <insert id="insertBatchWithoutIncreaseRate" parameterType="java.util.List">
+    <insert id="batchInsert" parameterType="java.util.List">
         insert into fund_value (fund_id, value_date, value, create_date, update_date, increase_rate) values
         <foreach collection="list" index="index" item="item" separator=",">
             (#{item.fundId},#{item.valueDate},#{item.value},now(),now(),

@@ -50,7 +50,7 @@ public class DownloadFundValueEventListener implements ApplicationListener<Downl
         fundValueService.calculateIncreaseRate(fundValues);
 
         // 持久化数据
-        fundValueDao.insertBatchWithoutIncreaseRate(fundValues);
+        fundValueDao.batchInsert(fundValues);
 
         log.info("获取基金净值事件结束，代码为{}的基金净值创建成功", fund.getCode());
     }
