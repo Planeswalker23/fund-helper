@@ -8,9 +8,13 @@ package io.walkers.planes.fundhelper.service.notice;
 public interface NoticeMethod {
 
     /**
-     * 邮件
+     * 简单邮件
      */
-    String MAIL = "Mail";
+    String SIMPLE_MAIL = "SimpleMail";
+    /**
+     * 视图模板邮件
+     */
+    String TEMPLATE_VIEW_MAIL = "TemplateViewMail";
     /**
      * 网页
      */

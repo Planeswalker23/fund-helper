@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * 基于邮件通知，仅会被 {@link NotificationSelector} 使用
+ * 简单邮件通知，仅会被 {@link NotificationSelector} 使用
  *
  * @author planeswalker23
  */
 @Slf4j
-@Service(value = NoticeMethod.MAIL)
-public class NotificationByMail implements Notification {
+@Service(value = NoticeMethod.SIMPLE_MAIL)
+public class NotificationBySimpleMail implements Notification {
 
     @Value("${spring.mail.username}")
     private String sender;
@@ -29,14 +29,14 @@ public class NotificationByMail implements Notification {
 
     @Override
     public Boolean match(String noticeMethod) {
-        return NoticeMethod.MAIL.equals(noticeMethod);
+        return NoticeMethod.SIMPLE_MAIL.equals(noticeMethod);
     }
 
     @Override
     public Boolean notice(NoticeMessage noticeMessage) {
         SimpleMailMessage simpleMailMessage = this.convert2SimpleMailMessage(noticeMessage);
         mailSender.send(simpleMailMessage);
-        log.info("邮件发送成功 -> 邮件实体类内容: {}", JacksonUtil.toJson(simpleMailMessage));
+        log.info("简单邮件发送成功 -> 内容: {}", JacksonUtil.toJson(simpleMailMessage));
         return Boolean.TRUE;
     }
 
