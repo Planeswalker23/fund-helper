@@ -1,7 +1,3 @@
 function printPig() {
-    console.log("Zzz is the Pig.")
-    console.log("Zzz is the Pig.")
-    console.log("Zzz is the Pig.")
-    console.log("Zzz is the Pig.")
-    console.log("Zzz is the Pig.")
+    console.log("Zzz isn`t a Pig.")
 }
