@@ -5,8 +5,9 @@ import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.pojo.Response;
 import io.walkers.planes.fundhelper.listener.DownloadFundValueEvent;
 import io.walkers.planes.fundhelper.listener.RecalculateNullIncreaseRateEvent;
-import io.walkers.planes.fundhelper.service.mail.MailService;
-import io.walkers.planes.fundhelper.service.mail.SendMail;
+import io.walkers.planes.fundhelper.service.notice.NoticeMessage;
+import io.walkers.planes.fundhelper.service.notice.NoticeMethod;
+import io.walkers.planes.fundhelper.service.notice.NotificationSelector;
 import org.springframework.context.ApplicationContext;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class CompensationController {
     @Resource
     private ApplicationContext applicationContext;
     @Resource
-    private MailService mailService;
+    private NotificationSelector notificationSelector;
 
     /**
      * 拉取基金净值
@@ -66,11 +67,12 @@ public class CompensationController {
     @Deprecated
     @GetMapping("/sendMail")
     public Response<String> sendMail() {
-        SendMail sendMail = new SendMail();
-        sendMail.setReceiver("fanyidong.fyd@alibaba-inc.com");
-        sendMail.setTitle("测试标题");
-        sendMail.setContent("测试内容");
-        mailService.sendSimpleEmail(sendMail);
+        NoticeMessage noticeMessage = new NoticeMessage();
+        noticeMessage.setReceiver("fanyidong.fyd@alibaba-inc.com");
+        noticeMessage.setTitle("测试标题");
+        noticeMessage.setContent("测试内容");
+        noticeMessage.setNoticeMethod(NoticeMethod.Mail);
+        notificationSelector.doNotice(noticeMessage);
         return Response.success();
     }
 }
