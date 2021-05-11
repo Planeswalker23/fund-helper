@@ -1,5 +1,9 @@
-package io.walkers.planes.fundhelper.service.notice;
+package io.walkers.planes.fundhelper.service.notice.impl;
 
+import io.walkers.planes.fundhelper.service.notice.NoticeMessage;
+import io.walkers.planes.fundhelper.service.notice.NoticeMethod;
+import io.walkers.planes.fundhelper.service.notice.Notification;
+import io.walkers.planes.fundhelper.service.notice.NotificationSelector;
 import io.walkers.planes.fundhelper.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,9 +34,9 @@ public class NotificationByMail implements Notification {
 
     @Override
     public Boolean notice(NoticeMessage noticeMessage) {
-        SimpleMailMessage newMessage = this.convert2SimpleMailMessage(noticeMessage);
-        mailSender.send(newMessage);
-        log.info("邮件发送成功 -> 邮件实体类内容: {}", JacksonUtil.toJson(newMessage));
+        SimpleMailMessage simpleMailMessage = this.convert2SimpleMailMessage(noticeMessage);
+        mailSender.send(simpleMailMessage);
+        log.info("邮件发送成功 -> 邮件实体类内容: {}", JacksonUtil.toJson(simpleMailMessage));
         return Boolean.TRUE;
     }
 

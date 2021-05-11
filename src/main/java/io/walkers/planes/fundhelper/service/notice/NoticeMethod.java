@@ -12,6 +12,10 @@ public interface NoticeMethod {
      */
     String MAIL = "Mail";
     /**
+     * 网页
+     */
+    String WEBSITE = "Website";
+    /**
      * 手机短信
      */
     String PHONE_NOTE = "PhoneNote";
