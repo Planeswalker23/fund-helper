@@ -7,7 +7,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Map;
 
 /**
  * 通知选择器，业务方使用该类进行通知
@@ -32,15 +31,15 @@ public class NotificationSelector implements ApplicationContextAware {
      * @return Boolean
      */
     public Boolean doNotice(NoticeMessage noticeMessage) {
-        Map<String, Notification> notificationMap = applicationContext.getBeansOfType(Notification.class);
-        // notificationMap 返回不会为 null
-        for (Notification notification : notificationMap.values()) {
-            // 判断每一个通知 bean 是否与 NoticeMessage 的通知方式匹配
+        try {
+            Notification notification = applicationContext.getBean(noticeMessage.getNoticeMethod(), Notification.class);
             if (notification.match(noticeMessage.getNoticeMethod())) {
                 return notification.notice(noticeMessage);
             }
+        } catch (BeansException e) {
+            log.warn("通知方式[{}]非法，请检查", noticeMessage.getNoticeMethod());
+            log.error(e.getMessage());
         }
-        log.warn("通知方式[{}]非法，请检查", noticeMessage.getNoticeMethod());
         return Boolean.FALSE;
     }
 }

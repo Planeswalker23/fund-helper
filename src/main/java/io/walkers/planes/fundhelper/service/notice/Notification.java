@@ -13,7 +13,7 @@ public interface Notification {
      * @param noticeMethod 通知方式
      * @return Boolean
      */
-    Boolean match(NoticeMethod noticeMethod);
+    Boolean match(String noticeMethod);
 
     /**
      * 通知

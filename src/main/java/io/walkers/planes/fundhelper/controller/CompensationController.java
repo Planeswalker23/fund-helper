@@ -5,12 +5,12 @@ import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.pojo.Response;
 import io.walkers.planes.fundhelper.listener.DownloadFundValueEvent;
 import io.walkers.planes.fundhelper.listener.RecalculateNullIncreaseRateEvent;
-import io.walkers.planes.fundhelper.service.notice.NoticeMessage;
-import io.walkers.planes.fundhelper.service.notice.NoticeMethod;
-import io.walkers.planes.fundhelper.service.notice.NotificationSelector;
 import org.springframework.context.ApplicationContext;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
@@ -29,8 +29,6 @@ public class CompensationController {
     private FundDao fundDao;
     @Resource
     private ApplicationContext applicationContext;
-    @Resource
-    private NotificationSelector notificationSelector;
 
     /**
      * 拉取基金净值
@@ -56,23 +54,6 @@ public class CompensationController {
     public Response<String> recalculateNullIncreaseRate(@RequestParam("code") @NotBlank(message = "基金代码不能为空") String code) {
         FundModel fundModel = fundDao.selectByCode(code);
         applicationContext.publishEvent(new RecalculateNullIncreaseRateEvent(this, fundModel));
-        return Response.success();
-    }
-
-    /**
-     * 发送邮件
-     *
-     * @return
-     */
-    @Deprecated
-    @GetMapping("/sendMail")
-    public Response<String> sendMail() {
-        NoticeMessage noticeMessage = new NoticeMessage();
-        noticeMessage.setReceiver("fanyidong.fyd@alibaba-inc.com");
-        noticeMessage.setTitle("测试标题");
-        noticeMessage.setContent("测试内容");
-        noticeMessage.setNoticeMethod(NoticeMethod.Mail);
-        notificationSelector.doNotice(noticeMessage);
         return Response.success();
     }
 }

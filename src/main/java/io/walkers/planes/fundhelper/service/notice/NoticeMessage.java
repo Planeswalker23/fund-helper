@@ -25,5 +25,5 @@ public class NoticeMessage {
      * 通知方式
      * {@link NoticeMethod}
      */
-    private NoticeMethod noticeMethod;
+    private String noticeMethod;
 }

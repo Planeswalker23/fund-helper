@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  * @author planeswalker23
  */
 @Slf4j
-@Service
+@Service(value = NoticeMethod.MAIL)
 public class NotificationByMail implements Notification {
 
     @Value("${spring.mail.username}")
@@ -24,8 +24,8 @@ public class NotificationByMail implements Notification {
     private JavaMailSender mailSender;
 
     @Override
-    public Boolean match(NoticeMethod noticeMethod) {
-        return NoticeMethod.Mail.equals(noticeMethod);
+    public Boolean match(String noticeMethod) {
+        return NoticeMethod.MAIL.equals(noticeMethod);
     }
 
     @Override

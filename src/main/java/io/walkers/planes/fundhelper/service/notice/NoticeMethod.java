@@ -5,18 +5,18 @@ package io.walkers.planes.fundhelper.service.notice;
  *
  * @author 范逸东
  */
-public enum NoticeMethod {
+public interface NoticeMethod {
 
     /**
      * 邮件
      */
-    Mail,
+    String MAIL = "Mail";
     /**
      * 手机短信
      */
-    PhoneNote,
+    String PHONE_NOTE = "PhoneNote";
     /**
      * 手机电话
      */
-    PhoneCall;
+    String PHONE_CALL = "PhoneCall";
 }
