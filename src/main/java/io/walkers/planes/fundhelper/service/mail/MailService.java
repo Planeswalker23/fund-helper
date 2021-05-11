@@ -1,4 +1,4 @@
-package io.walkers.planes.fundhelper.service;
+package io.walkers.planes.fundhelper.service.mail;
 
 import io.walkers.planes.fundhelper.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -24,22 +24,17 @@ public class MailService {
     private JavaMailSender mailSender;
 
     /**
-     * 发送邮件
+     * 发送简单邮件
      *
-     * @param emailDto 邮件入参
+     * @param sendMail 邮件入参
      */
-    public void sendSimpleEmail(Object emailDto) {
-        log.info("开始发送邮件 -> 传入邮件实体类参数内容: {}", JacksonUtil.toJson(emailDto));
+    public void sendSimpleEmail(SendMail sendMail) {
         // 发送邮件，新建邮件对象
         SimpleMailMessage newMessage = new SimpleMailMessage();
-        // 设置邮件主题
-        newMessage.setSubject(emailDto.getTitle() + "，来自用户邮箱: " + emailDto.getSender());
-        // 设置邮件内容
-        newMessage.setText(emailDto.getContent());
-        // 设置发件人
+        newMessage.setSubject(sendMail.getTitle());
+        newMessage.setText(sendMail.getContent());
         newMessage.setFrom(sender);
-        // 设置收件人
-        newMessage.setTo(emailDto.getAccepter());
+        newMessage.setTo(sendMail.getReceiver());
         mailSender.send(newMessage);
         log.info("邮件发送成功 -> 邮件实体类内容: {}", JacksonUtil.toJson(newMessage));
     }

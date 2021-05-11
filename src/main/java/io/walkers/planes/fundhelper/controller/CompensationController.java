@@ -5,12 +5,11 @@ import io.walkers.planes.fundhelper.entity.model.FundModel;
 import io.walkers.planes.fundhelper.entity.pojo.Response;
 import io.walkers.planes.fundhelper.listener.DownloadFundValueEvent;
 import io.walkers.planes.fundhelper.listener.RecalculateNullIncreaseRateEvent;
+import io.walkers.planes.fundhelper.service.mail.MailService;
+import io.walkers.planes.fundhelper.service.mail.SendMail;
 import org.springframework.context.ApplicationContext;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
@@ -29,6 +28,8 @@ public class CompensationController {
     private FundDao fundDao;
     @Resource
     private ApplicationContext applicationContext;
+    @Resource
+    private MailService mailService;
 
     /**
      * 拉取基金净值
@@ -54,6 +55,22 @@ public class CompensationController {
     public Response<String> recalculateNullIncreaseRate(@RequestParam("code") @NotBlank(message = "基金代码不能为空") String code) {
         FundModel fundModel = fundDao.selectByCode(code);
         applicationContext.publishEvent(new RecalculateNullIncreaseRateEvent(this, fundModel));
+        return Response.success();
+    }
+
+    /**
+     * 发送邮件
+     *
+     * @return
+     */
+    @Deprecated
+    @GetMapping("/sendMail")
+    public Response<String> sendMail() {
+        SendMail sendMail = new SendMail();
+        sendMail.setReceiver("fanyidong.fyd@alibaba-inc.com");
+        sendMail.setTitle("测试标题");
+        sendMail.setContent("测试内容");
+        mailService.sendSimpleEmail(sendMail);
         return Response.success();
     }
 }
