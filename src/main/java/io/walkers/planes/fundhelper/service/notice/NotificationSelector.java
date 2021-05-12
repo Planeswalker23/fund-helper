@@ -1,12 +1,10 @@
 package io.walkers.planes.fundhelper.service.notice;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * 通知选择器，业务方使用该类进行通知
@@ -15,15 +13,10 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Service
-public class NotificationSelector implements ApplicationContextAware {
+public class NotificationSelector {
 
     @Resource
-    private ApplicationContext applicationContext;
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
+    private Map<String, Notification> notificationMap;
 
     /**
      * 模板方法，执行通知方法
@@ -31,15 +24,17 @@ public class NotificationSelector implements ApplicationContextAware {
      * @return Boolean
      */
     public Boolean doNotice(NoticeMessage noticeMessage) {
-        try {
-            Notification notification = applicationContext.getBean(noticeMessage.getNoticeMethod(), Notification.class);
-            if (notification.match(noticeMessage.getNoticeMethod())) {
-                return notification.notice(noticeMessage);
-            }
-        } catch (BeansException e) {
-            log.warn("通知方式[{}]非法，请检查", noticeMessage.getNoticeMethod());
-            log.error(e.getMessage());
+        // 防止依赖注入为空
+        if (notificationMap == null) {
+            return Boolean.FALSE;
         }
+        Notification notification = notificationMap.get(noticeMessage.getNoticeMethod());
+        // 校验通知方式存在且匹配
+        if (notification != null && notification.match(noticeMessage.getNoticeMethod())) {
+            // 执行通知逻辑
+            return notification.notice(noticeMessage);
+        }
+        log.warn("通知方式[{}]非法，请检查通知方式实现类: [{}]", noticeMessage.getNoticeMethod(), notificationMap);
         return Boolean.FALSE;
     }
 }

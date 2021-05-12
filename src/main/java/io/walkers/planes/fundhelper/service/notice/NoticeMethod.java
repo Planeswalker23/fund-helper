@@ -3,7 +3,7 @@ package io.walkers.planes.fundhelper.service.notice;
 /**
  * 通知方式枚举类
  *
- * @author 范逸东
+ * @author planeswalker23
  */
 public interface NoticeMethod {
 
