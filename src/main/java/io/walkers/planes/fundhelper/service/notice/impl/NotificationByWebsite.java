@@ -43,6 +43,7 @@ public class NotificationByWebsite implements Notification {
                 .virtualUserId(userByMailbox.getId())
                 .readStatus(Boolean.FALSE)
                 .build();
+        websiteNotice.setActiveDate(noticeMessage.getActiveDate());
         websiteNoticeDao.insert(websiteNotice);
         log.info("网页通知成功 -> 内容: {}", JacksonUtil.toJson(noticeMessage));
         return Boolean.TRUE;

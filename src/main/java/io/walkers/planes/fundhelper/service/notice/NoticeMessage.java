@@ -2,6 +2,8 @@ package io.walkers.planes.fundhelper.service.notice;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * 通知信息实体类
  *
@@ -26,4 +28,8 @@ public class NoticeMessage {
      * {@link NoticeMethod}
      */
     private String noticeMethod;
+    /**
+     * 激活时间
+     */
+    private Date activeDate;
 }

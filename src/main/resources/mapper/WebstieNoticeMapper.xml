@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.walkers.planes.fundhelper.dao.WebsiteNoticeDao">
     <insert id="insert" parameterType="io.walkers.planes.fundhelper.entity.model.WebsiteNoticeModel" useGeneratedKeys="true" keyProperty="id">
-        insert into website_notice (virtual_user_id, title, content, read_status, create_date, update_date)
-        values (#{websiteNotice.virtualUserId}, #{websiteNotice.title}, #{websiteNotice.content}, #{websiteNotice.readStatus}, now(), now())
+        insert into website_notice (virtual_user_id, title, content, read_status, create_date, update_date, active_date)
+        values (#{websiteNotice.virtualUserId}, #{websiteNotice.title}, #{websiteNotice.content}, #{websiteNotice.readStatus}, now(), now(), #{websiteNotice.activeDate})
     </insert>
 </mapper>

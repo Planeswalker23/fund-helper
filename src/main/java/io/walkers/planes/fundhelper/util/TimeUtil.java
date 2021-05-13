@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneOffset;
+import java.util.Calendar;
 
 /**
  * @author planeswalker23
@@ -69,5 +70,22 @@ public class TimeUtil {
         }
         currentDate = currentDate.minus(period);
         return new java.sql.Date(currentDate.atStartOfDay().toInstant(ZoneOffset.of("+8")).toEpochMilli());
+    }
+
+    /**
+     * 获取传入日期的 00:00:00 时间
+     * @param date 日期
+     * @return java.util.Date
+     */
+    public static java.util.Date startOfDay(java.util.Date date) {
+        if (date == null) {
+            throw new FundHelperException("入参 date 为空，默认获取当天的时间");
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTime();
     }
 }

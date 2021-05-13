@@ -24,6 +24,7 @@ A widget for helping investors manage funds.
     - [x] 简单邮件
     - [x] 视图模板邮件
     - [ ] 网页通知
+- [ ] 秒级任务触发
 
 ## 优化项:
 ### 通用向

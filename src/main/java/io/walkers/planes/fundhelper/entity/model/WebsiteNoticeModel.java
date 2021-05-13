@@ -1,11 +1,13 @@
 package io.walkers.planes.fundhelper.entity.model;
 
+import io.walkers.planes.fundhelper.service.task.ModelAggregation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 网页通知模型
@@ -16,7 +18,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WebsiteNoticeModel implements Serializable {
+public class WebsiteNoticeModel implements Serializable, ModelAggregation {
     /**
      * 主键
      */
@@ -47,4 +49,13 @@ public class WebsiteNoticeModel implements Serializable {
      * 更新时间
      */
     private java.util.Date updateDate;
+    /**
+     * 激活时间
+     */
+    private java.util.Date activeDate;
+
+    @Override
+    public Date activeDate() {
+        return this.activeDate;
+    }
 }

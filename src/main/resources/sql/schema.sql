@@ -30,14 +30,16 @@ drop table if exists virtual_user;
 create table virtual_user
 (
     `id`          bigint(20) not null AUTO_INCREMENT comment '主键',
-    `create_date` datetime default null comment '创建日期',
-    `update_date` datetime default null on update current_timestamp comment '更新时间',
+    `create_date` datetime     default null comment '创建日期',
+    `update_date` datetime     default null on update current_timestamp comment '更新时间',
     `account`     varchar(32) not null comment '账户',
     `password`    varchar(32) not null comment '密码',
+    `mailbox`     varchar(255) DEFAULT NULL COMMENT '邮箱',
     primary key (`id`)
 );
 
-insert into virtual_user values(1, now(), now(), 'root', 'password');
+insert into virtual_user
+values (1, now(), now(), 'root', 'password');
 
 drop table if exists optional_fund_relation;
 create table optional_fund_relation
@@ -46,4 +48,18 @@ create table optional_fund_relation
     `fund_id`         varchar(32) not null comment '基金ID',
     `create_date`     datetime default null comment '创建日期',
     `update_date`     datetime default null on update current_timestamp comment '更新时间'
+);
+
+drop table if exists website_notice;
+CREATE TABLE `website_notice`
+(
+    `id`              bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `virtual_user_id` varchar(32) NOT NULL COMMENT '用户ID',
+    `title`           varchar(255) NULL DEFAULT NULL COMMENT '标题',
+    `content`         varchar(1024) NULL DEFAULT NULL COMMENT '内容',
+    `read_status`     tinyint(0) NULL DEFAULT NULL COMMENT '阅读状态',
+    `active_date`     datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP (0) COMMENT '更新时间',
+    `create_date`     datetime(0) NULL DEFAULT NULL COMMENT '创建日期',
+    `update_date`     datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP (0) COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE
 );

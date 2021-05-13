@@ -41,4 +41,8 @@ public class VirtualUserModel implements Serializable {
      * 更新时间
      */
     private java.util.Date updateDate;
+    /**
+     * 邮箱
+     */
+    private String mailbox;
 }

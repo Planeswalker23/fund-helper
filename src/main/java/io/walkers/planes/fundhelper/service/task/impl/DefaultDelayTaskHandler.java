@@ -1,0 +1,20 @@
+package io.walkers.planes.fundhelper.service.task.impl;
+
+import io.walkers.planes.fundhelper.service.task.TaskHandler;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+/**
+ * 默认延迟任务执行器
+ *
+ * @author planeswalker23
+ */
+@Slf4j
+@Component
+public class DefaultDelayTaskHandler implements TaskHandler {
+    @Override
+    public Boolean handle() {
+        log.info("延迟任务执行器开始执行");
+        return null;
+    }
+}

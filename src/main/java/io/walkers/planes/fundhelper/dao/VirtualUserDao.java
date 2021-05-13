@@ -27,4 +27,13 @@ public interface VirtualUserDao {
      * @param virtualUser 待插入数据
      */
     void insert(@Param("virtualUser") VirtualUserModel virtualUser);
+
+    /**
+     * 根据 mailbox 查询
+     *
+     * @param mailbox 邮箱
+     * @return VirtualUserModel
+     */
+    @Select("select * from virtual_user where mailbox=#{mailbox} limit 1")
+    VirtualUserModel selectByMailbox(@Param("mailbox") String mailbox);
 }
