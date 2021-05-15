@@ -35,8 +35,8 @@ public class NotificationByWebsite implements Notification {
 
     @Override
     public Boolean notice(NoticeMessage noticeMessage) {
-        // todo 根据邮箱查询用户
-        VirtualUserModel userByMailbox = virtualUserDao.selectByAccount(noticeMessage.getReceiver());
+        // 根据邮箱查询用户
+        VirtualUserModel userByMailbox = virtualUserDao.selectByMailbox(noticeMessage.getReceiver());
         WebsiteNoticeModel websiteNotice = WebsiteNoticeModel.builder()
                 .title(noticeMessage.getTitle())
                 .content(noticeMessage.getContent())
